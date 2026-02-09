@@ -4,9 +4,10 @@ Exercise tracker on the command line. Skillex tracks your workout and gives expe
 ## How to use
 1. Start by downloading the latest version and put it into a new folder.
 2. Inside a terminal call `skillex init` and follow the instructions. It will create a folder with a profile json-file with the starting stats.
-3. Start exercising and when done call `skillex add [workout_name] [frequency] [distance]`.
-4. Call `skillex stats` to see your current progress.
-5. Use `skillex sleep [hours_slept]` to track your sleep. This will increase your experience points gained when using `skillex add`.
+3. Use `skillex bodyparts` to retrieve available bodyparts and then `skillex exercises [body_part]` to get the exercises with that bodypart.
+4. Start exercising and when done call `skillex add [workout_name] [frequency] [distance]`.
+5. Call `skillex stats` to see your current progress.
+6. Use `skillex sleep [hours_slept]` to track your sleep. This will increase your experience points gained when using `skillex add`.
 
 
 ## About
