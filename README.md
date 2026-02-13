@@ -10,5 +10,6 @@ Exercise tracker on the command line. Skillex tracks your workout and gives expe
 6. Use `skillex sleep [hours_slept]` to track your sleep. This will increase your experience points gained when using `skillex add`.
 
 
-## About
-Skillex uses [ExerciseDB API](https://exercisedb.dev/) for getting body parts and exercises. It's an open-source free exercise database.
+## Third-party
+- [ExerciseDB API](https://exercisedb.dev/) for getting body parts and exercises. It's an open-source free exercise database.
+- [Click](https://click.palletsprojects.com/en/stable/) for creating command line interfaces.
