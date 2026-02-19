@@ -1,5 +1,5 @@
 class ExerciseLogEntry:
-    def __init__(self, id, date, user_id, exercise_id, xp_earned:int, weight_volume = int):
+    def __init__(self, id:int, date:int, user_id:int, exercise_id:str, xp_earned:int, weight_volume:int):
         self.id = id
         self.user_id = user_id
         self.date = date
