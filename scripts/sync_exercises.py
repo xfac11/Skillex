@@ -74,16 +74,15 @@ def save_exercises_to_table(connection:sqlite3.Connection, exercises):
         cursor.execute("INSERT OR REPLACE INTO exercises VALUES(?, ?, ?, ?, ?, ?)",
                         (exercise["exerciseId"], exercise["name"], exercise["bodyParts"][0], exercise["targetMuscles"][0], exercise["equipments"][0], str(exercise)))
     
-    connection.commit()
 
 def save_to_database(exercises):
-    connection = sqlite3.connect(DB_PATH)
+    with sqlite3.connect(DB_PATH) as connection:
 
-    create_exercises_table(connection)
+        create_exercises_table(connection)
 
-    save_exercises_to_table(connection, exercises)
+        save_exercises_to_table(connection, exercises)
 
-    connection.close()
+        connection.commit()
 
 def main():
     print("--------------------------------------")
