@@ -1,9 +1,10 @@
 import sqlite3
 
 from src.exercise import Exercise
+from src.exerciselogentry import ExerciseLogEntry
 
 def create_exercise(exercise_id:str) -> Exercise:
-    with sqlite3.connect("exercises.db") as connection:
+    with sqlite3.connect("skillex.db") as connection:
 
         cursor = connection.cursor()
 
@@ -20,12 +21,43 @@ def create_exercise(exercise_id:str) -> Exercise:
         return new_exercise
     return None
 
-def add_to_log(user_id:int, exercise:Exercise, date:int, xp_earned:int,) -> bool:
-    connection = sqlite3.connect("skillex.db")
+def add_to_log(user_id:int, exercise:Exercise, date:int, xp_earned:int, weight_volume:int) -> bool:
 
-    cursor = connection.cursor()
+    ### SQL handles the id creation with auto increment
+    log_entry = ExerciseLogEntry(-1, date, user_id, exercise.id, xp_earned, weight_volume)
 
-    cursor.execute("CREATE TABLE IF ")
+    with sqlite3.connect("skillex.db") as connection:
+
+        cursor = connection.cursor()
+
+        cursor.execute("""CREATE TABLE IF NOT EXISTS exercise_log (
+                       id INTEGER PRIMARY KEY ASC,
+                       date INT,
+                       user_id INT,
+                       exercise_id TEXT,
+                       xp_earned INT,
+                       weight_volume INT,
+                       FOREIGN KEY (user_id) REFERENCES users(id)
+                       FOREIGN KEY (exercise_id) REFERENCES exercises(id)
+                       )
+                       """)
+        
+        result = cursor.execute("SELECT name FROM sqlite_master WHERE name='exercise_log'")
+        if result.fetchone() is None:
+            raise Exception("Could not create or find table")
+        
+        cursor.execute("""
+                        INSERT INTO exercise_log VALUES(NULL, ?, ?, ?, ?, ?)
+                        """, (log_entry.date, log_entry.user_id, log_entry.exercise_id, log_entry.xp_earned, log_entry.weight_volume))
+        
+        connection.commit()
+
+        return True
+    return False
+
+
+
+
 
 
 

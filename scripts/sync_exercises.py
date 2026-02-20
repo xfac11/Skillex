@@ -10,7 +10,7 @@ HEADERS = {
         "User-Agent": "FilipFitnessApp/1.0 (personal project; contact: xfac115@gmail.com)"
     }
 
-DB_PATH = "exercises.db"
+DB_PATH = "skillex.db"
 
 BASE_URL = "https://exercisedb.dev/api/v1/exercises"
 
