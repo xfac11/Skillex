@@ -1,22 +1,24 @@
 import sqlite3
 
-from exercise import Exercise
+from src.exercise import Exercise
 
-def create_exercise(exercise_id:int, exercise_name:str, database:str) -> Exercise:
-    connection = sqlite3.connect("exercise.db")
+def create_exercise(exercise_id:str) -> Exercise:
+    with sqlite3.connect("exercises.db") as connection:
 
-    cursor = connection.cursor()
+        cursor = connection.cursor()
 
-    result = cursor.execute("SELECT id FROM exercises WHERE id=(?)", (exercise_id))
+        result = cursor.execute("SELECT * FROM exercises WHERE id=(?)", (exercise_id,))
 
-    exercise_api = result.fetchone()
+        exercise_api = result.fetchone()
 
-    # id, name, bodypart, target_muscle, equipment
-    new_exercise:Exercise = Exercise(exercise_api[0], exercise_api[1], exercise_api[2], exercise_api[3], exercise_api[4])
+        if exercise_api is None:
+            return None
 
-    connection.close()
+        # id, name, bodypart, target_muscle, equipment
+        new_exercise:Exercise = Exercise(exercise_api[0], exercise_api[1], exercise_api[2], exercise_api[3], exercise_api[4])
 
-    return new_exercise
+        return new_exercise
+    return None
 
 def add_to_log(user_id:int, exercise:Exercise, date:int, xp_earned:int,) -> bool:
     connection = sqlite3.connect("skillex.db")
