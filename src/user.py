@@ -2,14 +2,13 @@ from src.bodyparts import BodyParts
 from src.calculatexperience import calculate_body_level
 from src.calculatexperience import calculate_global_level
 class User:
-    def __init__(self, id:int, name:str, global_xp:int, body_xp:BodyParts, streak:int, sleep_streak:int, log_id:list, highest_weight:int):
+    def __init__(self, id:int, name:str, global_xp:int, body_xp:BodyParts, streak:int, sleep_streak:int, highest_weight:int):
         self.name = name
         self.id = id
         self.global_xp = global_xp
         self.body_xp = body_xp
         self.streak = streak
         self.sleep_streak = sleep_streak
-        self.log_id = log_id
         self.highest_weight = highest_weight
 
     def repr():

@@ -7,7 +7,7 @@ class TestUser(unittest.TestCase):
         bodyParts = ["cardio", "back", "lower arm"]
         bodypart_xp = BodyParts(bodyParts)
         
-        user:User = User(1, "Filip", 0, bodypart_xp, 0, 2, 0, 6)
+        user:User = User(1, "Filip", 0, bodypart_xp, 0, 2, 6)
         
         self.assertEqual(user.id, 1)
         self.assertEqual(user.name, "Filip")
@@ -15,14 +15,13 @@ class TestUser(unittest.TestCase):
         self.assertEqual(user.body_xp.get_bodypart_xp("back"), 0)
         self.assertEqual(user.streak, 0)
         self.assertEqual(user.sleep_streak, 2)
-        self.assertEqual(user.log_id, 0)
         self.assertEqual(user.highest_weight, 6)
     
     def test_global_xp(self):
         bodyParts = ["cardio", "back", "lower arm"]
         bodypart_xp = BodyParts(bodyParts)
         
-        user:User = User(1, "Louise", 0, bodypart_xp, 0, 2, 0, 6)
+        user:User = User(1, "Louise", 0, bodypart_xp, 0, 2, 6)
         
         level = user.increase_global_xp(200)
         
@@ -32,7 +31,6 @@ class TestUser(unittest.TestCase):
         self.assertEqual(user.body_xp.get_bodypart_xp("lower arm"), 0)
         self.assertEqual(user.streak, 0)
         self.assertEqual(user.sleep_streak, 2)
-        self.assertEqual(user.log_id, 0)
         self.assertEqual(user.highest_weight, 6)
         self.assertEqual(level, 4)
     
@@ -41,7 +39,7 @@ class TestUser(unittest.TestCase):
         bodyParts = ["cardio", "back", "lower arm"]
         bodypart_xp = BodyParts(bodyParts)
         
-        user:User = User(1, "Louise", 0, bodypart_xp, 0, 2, 0, 6)
+        user:User = User(1, "Louise", 0, bodypart_xp, 0, 2, 6)
         
         level = user.increase_body_xp("back", 200)
         
@@ -51,7 +49,6 @@ class TestUser(unittest.TestCase):
         self.assertEqual(user.body_xp.get_bodypart_xp("back"), 200)
         self.assertEqual(user.streak, 0)
         self.assertEqual(user.sleep_streak, 2)
-        self.assertEqual(user.log_id, 0)
         self.assertEqual(user.highest_weight, 6)
         self.assertEqual(level, 3)
     
@@ -59,7 +56,7 @@ class TestUser(unittest.TestCase):
         bodyParts = ["cardio", "back", "lower arm"]
         bodypart_xp = BodyParts(bodyParts)
         
-        user:User = User(1, "Louise", 0, bodypart_xp, 0, 2, 0, 6)
+        user:User = User(1, "Louise", 0, bodypart_xp, 0, 2, 6)
         
         level = user.increase_body_xp("shoulder", 200)
         
@@ -69,7 +66,6 @@ class TestUser(unittest.TestCase):
         self.assertEqual(user.body_xp.get_bodypart_xp("back"), 0)
         self.assertEqual(user.streak, 0)
         self.assertEqual(user.sleep_streak, 2)
-        self.assertEqual(user.log_id, 0)
         self.assertEqual(user.highest_weight, 6)
         self.assertEqual(level, -1)
     
@@ -77,7 +73,7 @@ class TestUser(unittest.TestCase):
         bodyParts = ["cardio", "back", "lower arm"]
         bodypart_xp = BodyParts(bodyParts)
         
-        user:User = User(1, "Louise", 0, bodypart_xp, 0, 2, 0, 6)
+        user:User = User(1, "Louise", 0, bodypart_xp, 0, 2, 6)
         
         level = user.increase_body_xp("back", 10)
         
@@ -87,7 +83,6 @@ class TestUser(unittest.TestCase):
         self.assertEqual(user.body_xp.get_bodypart_xp("back"), 10)
         self.assertEqual(user.streak, 0)
         self.assertEqual(user.sleep_streak, 2)
-        self.assertEqual(user.log_id, 0)
         self.assertEqual(user.highest_weight, 6)
         self.assertEqual(level, 0)
     
@@ -95,7 +90,7 @@ class TestUser(unittest.TestCase):
         bodyParts = ["cardio", "back", "lower arm"]
         bodypart_xp = BodyParts(bodyParts)
         
-        user:User = User(1, "Josefin", 0, bodypart_xp, 0, 2, 0, 6)
+        user:User = User(1, "Josefin", 0, bodypart_xp, 0, 2, 6)
         
         level = user.increase_body_xp("back", 200)
         
@@ -105,7 +100,6 @@ class TestUser(unittest.TestCase):
         self.assertEqual(user.body_xp.get_bodypart_xp("back"), 200)
         self.assertEqual(user.streak, 0)
         self.assertEqual(user.sleep_streak, 2)
-        self.assertEqual(user.log_id, 0)
         self.assertEqual(user.highest_weight, 6)
         self.assertEqual(level, 3)
         
@@ -126,7 +120,7 @@ class TestUser(unittest.TestCase):
         bodyParts = ["cardio", "back", "lower arm"]
         bodypart_xp = BodyParts(bodyParts)
         
-        user:User = User(1, "Louise", 0, bodypart_xp, 0, 2, 0, 6)
+        user:User = User(1, "Louise", 0, bodypart_xp, 0, 2, 6)
         
         level = user.increase_body_xp("back", 200)
         
@@ -136,7 +130,6 @@ class TestUser(unittest.TestCase):
         self.assertEqual(user.body_xp.get_bodypart_xp("back"), 200)
         self.assertEqual(user.streak, 0)
         self.assertEqual(user.sleep_streak, 2)
-        self.assertEqual(user.log_id, 0)
         self.assertEqual(user.highest_weight, 6)
         self.assertEqual(level, 3)
         
