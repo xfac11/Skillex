@@ -1,6 +1,8 @@
 import sqlite3
 from src.user import User
 def add_user(user:User) -> bool:
+    if user is None:
+        return False
     with sqlite3.connect("skillex.db") as connection:
         cursor = connection.cursor()
         cursor.execute("""
