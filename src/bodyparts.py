@@ -1,6 +1,6 @@
 from src.calculatexperience import calculate_body_level
 class BodyParts:
-    def __init__(self, bodyparts:list[str]):
+    def __init__(self, bodyparts:list[str] = ["lower_arms", "shoulder", "cardio", "upper_arms","chest", "lower_legs", "back", "upper_legs", "waist"]):
         self.__bodyparts:dict = {}
         for bodypart in bodyparts:
             self.__bodyparts[bodypart] = 0
@@ -19,4 +19,7 @@ class BodyParts:
         if xp is not None:
             return calculate_body_level(xp)
         return -1
+    
+    def get_bodyparts(self) -> dict:
+        return self.__bodyparts
     
