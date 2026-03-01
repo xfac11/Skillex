@@ -19,4 +19,8 @@ class TestSearchExercise(unittest.TestCase):
     
     def test_query_by_nonexisting(self):
         hit = search_exercise("111")
-        self.assertIsNone(hit)
+        self.assertListEqual(hit, [])
+    
+    def test_query_None(self):
+        hit = search_exercise(None)
+        self.assertListEqual(hit, [])

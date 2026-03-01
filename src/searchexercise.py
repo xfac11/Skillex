@@ -4,7 +4,7 @@ import sqlite3
 ## Returns an exercise as a tuple with id and name -> (id, name)
 def search_exercise(query:str) -> list:
     if query is None:
-        return None
+        return []
     with sqlite3.connect("skillex.db") as connection:
         cursor = connection.cursor()
         
@@ -33,7 +33,7 @@ def search_exercise(query:str) -> list:
         if len(matches) >= 1:
             return matches
     
-    return None
+    return []
     
                 
             
