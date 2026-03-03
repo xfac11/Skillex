@@ -22,7 +22,9 @@ def create_exercise(exercise_id:str) -> Exercise:
     return None
 
 def add_to_log(user_id:int, exercise:Exercise, date:int, xp_earned:int, weight_volume:int) -> bool:
-
+    """
+    Creates a log entry in the exercise_log table. If no table exists this function also creates it. 
+    """
     ### SQL handles the id creation with auto increment
     log_entry = ExerciseLogEntry(-1, date, user_id, exercise.id, xp_earned, weight_volume)
 

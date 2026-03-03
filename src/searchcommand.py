@@ -1,0 +1,38 @@
+import click
+
+from searchexercise import search_exercise
+
+
+def format_exercise_tuple(exercise_tuple):
+    return f"{exercise_tuple[0]} | {exercise_tuple[1]}"
+
+
+@click.command()
+@click.argument("query")
+@click.option("--pager", "-p", is_flag=True, help="If set it uses a pager when more than 15 were found")
+def search(query:str, pager:bool):
+    """
+    Searches for exercises and echoes their name and id. 
+    Can use exact name or id or partial name.
+    If more than 15 were found a pager starts
+    """
+    exercises = search_exercise(query)
+    
+    if exercises is None:
+        click.echo("No exercises were found.")
+        return
+    
+    if len(exercises) <= 15:
+        for exercise in exercises:
+            click.echo(f"{exercise[0]} | {exercise[1]}")
+        return
+    
+    
+    exercise_str = list(map(format_exercise_tuple, exercises))
+    exercise_str = "\n".join(exercise_str)
+    if pager:
+        click.echo_via_pager(exercise_str)
+    else:
+        click.echo(exercise_str)
+    
+    

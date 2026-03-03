@@ -9,6 +9,13 @@ def clamp(number, smallest, largest):
     return max(smallest, min(number, largest))
 
 class ExerciseExperience:
+    """
+    ExerciseExperience has all the multipliers that can increase the experience gained from an exercise.
+    To create one supply the time in minutes this particular exercise took.
+    Then add multipliers by using the apply functions: apply_[multiplier_name].
+    exercise_xp is the total xp and is updated after each multiplier. 
+    multiplier is also updated after each multiplier and is the total multiplier.
+    """
     def __init__(self, time_minutes, base_rate = BASE_RATE):
         self.__exercise_xp = time_minutes * base_rate
         self.__intensity_multiplier = 1.0
@@ -19,8 +26,9 @@ class ExerciseExperience:
         self.__exercise_multiplier = 1.0
         self.__multiplier = 1.0
     
-    ##Gives a multipler from 1.0 (means 0% bonus) to 2.0 means 100% bonus
+    
     def apply_intensity_multiplier(self, user_speed, exercise_avg_speed, scaling_intensity = SCALING_INTENSITY):
+        """Applies a multipler from 1.0 (0% bonus) to 2.0 (100% bonus)"""
         relative_intensity = (user_speed - exercise_avg_speed) / exercise_avg_speed
         relative_intensity = clamp(relative_intensity, 0.0, 1.0) 
         
@@ -32,8 +40,11 @@ class ExerciseExperience:
 
         return self
     
-    ## Gives a multiplier from 1.0 to sleep_streak_cap. Each streak day inreaces the multiplier by sleep_streak_rate
+    
     def apply_sleep_multiplier(self, sleep_streak:int, sleep_streak_rate = SLEEP_STREAK_RATE, sleep_streak_cap = SLEEP_STREAK_CAP):
+        """
+        Applies a multiplier from 1.0 to sleep_streak_cap. Each streak day inreaces the multiplier by sleep_streak_rate
+        """
         sleep_m = 1 + min(sleep_streak * sleep_streak_rate, sleep_streak_cap)
 
         self.__multiplier *= sleep_m

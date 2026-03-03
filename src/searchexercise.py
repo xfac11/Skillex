@@ -1,8 +1,12 @@
 import sqlite3
 
 
-## Returns an exercise as a tuple with id and name -> (id, name)
-def search_exercise(query:str) -> list:
+
+def search_exercise(query:str) -> list[tuple]:
+    """
+    Returns a list of exercises as a tuple with id and name -> [(exercise_id, exercise_name),...]
+    If no search results, an empty list is returned
+    """
     if query is None:
         return []
     with sqlite3.connect("skillex.db") as connection:
@@ -27,7 +31,7 @@ def search_exercise(query:str) -> list:
         ## Search partial matching using like
         result = cursor.execute("""
                             SELECT id, name FROM exercises WHERE lower(name) LIKE lower(?) ORDER BY length(name)
-                            """, (f"%{query}%",))
+                            """, (f"%{query.strip().lower().replace(" ", "_")}%",))
         matches = result.fetchall()
             
         if len(matches) >= 1:
