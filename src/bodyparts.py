@@ -1,6 +1,11 @@
-from src.calculatexperience import calculate_body_level
+from calculatexperience import calculate_body_level
+
+class BodypartList:
+    def __init__(self):
+        self.bodyparts = ["lower_arms", "shoulder", "cardio", "upper_arms","chest", "lower_legs", "back", "upper_legs", "waist"]
+
 class BodyParts:
-    def __init__(self, bodyparts:list[str] = ["lower_arms", "shoulder", "cardio", "upper_arms","chest", "lower_legs", "back", "upper_legs", "waist"]):
+    def __init__(self, bodyparts:list[str] = BodypartList().bodyparts):
         self.__bodyparts:dict = {}
         for bodypart in bodyparts:
             self.__bodyparts[bodypart] = 0

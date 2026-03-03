@@ -1,7 +1,7 @@
 import click
 
 from searchexercise import search_exercise
-
+from searchexercise import search_exercise_bodypart
 
 def format_exercise_tuple(exercise_tuple):
     return f"{exercise_tuple[0]} | {exercise_tuple[1]}"
@@ -10,13 +10,18 @@ def format_exercise_tuple(exercise_tuple):
 @click.command()
 @click.argument("query")
 @click.option("--pager", "-p", is_flag=True, help="If set it uses a pager when more than 15 were found")
-def search(query:str, pager:bool):
+@click.option("--bodypart", "-b", help="Searches for the specific bodypart. Use bodyparts command for a list of bodyparts")
+def search(query:str, pager:bool, bodypart:str):
     """
     Searches for exercises and echoes their name and id. 
     Can use exact name or id or partial name.
     If more than 15 were found a pager starts
     """
-    exercises = search_exercise(query)
+    exercises = None
+    if bodypart:
+        exercises = search_exercise_bodypart(query, bodypart)
+    else:
+        exercises = search_exercise(query)
     
     if exercises is None:
         click.echo("No exercises were found.")

@@ -1,5 +1,6 @@
 import click
 from searchcommand import search
+from bodypartscommand import bodyparts
 from pathlib import Path
 
 DATABASE_PATH = Path("skillex.db")
@@ -26,6 +27,7 @@ def cli() -> None:
         
 cli.add_command(hello)
 cli.add_command(search)
+cli.add_command(bodyparts)
 
 if __name__ == "__main__":
     cli()
