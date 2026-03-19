@@ -1,6 +1,7 @@
 import click
 from searchcommand import search
 from bodypartscommand import bodyparts
+from viewusercommand import stats
 from pathlib import Path
 
 DATABASE_PATH = Path("skillex.db")
@@ -28,6 +29,7 @@ def cli() -> None:
 cli.add_command(hello)
 cli.add_command(search)
 cli.add_command(bodyparts)
+cli.add_command(stats)
 
 if __name__ == "__main__":
     cli()

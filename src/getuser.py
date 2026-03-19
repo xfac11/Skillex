@@ -1,7 +1,8 @@
-from src.user import User
-from src.bodyparts import BodyParts
+from user import User
+from bodyparts import BodyParts
 import sqlite3
 def get_user(name:str) -> User:
+    """Returns the user with this name or None if no was found"""
     with sqlite3.connect("skillex.db") as connection:
     
         cursor = connection.cursor()

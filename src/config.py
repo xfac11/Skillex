@@ -1,6 +1,7 @@
 import json
 
 def load_config() -> tuple:
+    """Returns a tuple (name, id) or None if no config file was found"""
     with open("config.json", "r") as f:
         data = json.load(f)
         name = data["current_user"]
@@ -9,6 +10,7 @@ def load_config() -> tuple:
     return None
 
 def save_config(name, id) -> bool:
+    """Writes name and id to a file called config.json"""
     data = {
         "current_user" : name,
         "current_user_id" : id,

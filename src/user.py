@@ -1,6 +1,6 @@
-from src.bodyparts import BodyParts
-from src.calculatexperience import calculate_body_level
-from src.calculatexperience import calculate_global_level
+from bodyparts import BodyParts
+from calculatexperience import calculate_body_level
+from calculatexperience import calculate_global_level
 class User:
     def __init__(self, id:int, name:str, global_xp:int, body_xp:BodyParts, streak:int, sleep_streak:int, highest_weight:int):
         self.name = name

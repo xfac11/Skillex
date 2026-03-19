@@ -1,0 +1,38 @@
+import click
+from config import load_config
+from getuser import get_user
+from calculatexperience import calculate_global_level
+from calculatexperience import calculate_body_level
+
+
+@click.command()
+def stats():
+    name_id = load_config()
+    if name_id is None:
+        click.echo("No user found in the config file. Please use skillex init to initiate a user")
+        return
+    user = get_user(name_id[0])
+    if user is None:
+        click.echo("No user found in the database with that name. The config.json file might be corrupted")
+        return
+    
+    click.echo(f"---{user.name}---")
+    click.echo(f"Level {calculate_global_level(user.global_xp)} Sleep streak {user.sleep_streak} days")
+    click.echo("-------------------------------------------------")
+    
+    i = 0
+    print_string = ""
+    for key in user.body_xp.get_bodyparts():
+        bodypart_text = key.replace("_", " ").capitalize()
+        bodypart_text = "{:<10}".format(bodypart_text)
+        print_string += f"|{bodypart_text} {user.body_xp.get_bodypart_level(key)}/99"
+        i += 1
+        if i == 3:
+            click.echo(print_string + "|")
+            print_string = ""
+            i = 0
+    click.echo("-------------------------------------------------")
+    
+    
+    
+    

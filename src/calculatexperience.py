@@ -138,10 +138,10 @@ def create_exercise_experience(sleep_streak = 1,
     
 
 def calculate_global_level(current_xp:int):
-    return math.floor(GLOBAL_CONSTANT * math.sqrt(current_xp))
+    return max(1, math.floor(GLOBAL_CONSTANT * math.sqrt(current_xp)))
 
 def calculate_body_level(current_xp:int):
-    return math.floor(BODY_CONSTANT * math.sqrt(current_xp))
+    return max(1, math.floor(BODY_CONSTANT * math.sqrt(current_xp)))
 
 def calculate_body_experience(current_level:int): ##Never use for storing or for displaying current xp
     return (current_level / BODY_CONSTANT)**2
