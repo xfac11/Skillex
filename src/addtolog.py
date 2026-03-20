@@ -1,7 +1,7 @@
 import sqlite3
 
-from src.exercise import Exercise
-from src.exerciselogentry import ExerciseLogEntry
+from exercise import Exercise
+from exerciselogentry import ExerciseLogEntry
 
 def create_exercise(exercise_id:str) -> Exercise:
     with sqlite3.connect("skillex.db") as connection:
