@@ -2,7 +2,7 @@ import sqlite3
 
 
 
-def search_exercise(query:str) -> list[tuple]:
+def search_exercise(query:str, partial:bool = False) -> list[tuple]:
     """
     Returns a list of exercises as a tuple with id and name -> [(exercise_id, exercise_name),...]
     If no search results, an empty list is returned
@@ -12,21 +12,22 @@ def search_exercise(query:str) -> list[tuple]:
     with sqlite3.connect("skillex.db") as connection:
         cursor = connection.cursor()
         
-        ## Search by exact id
-        result = cursor.execute("""
-                       SELECT id, name FROM exercises WHERE id = ? 
-                       """, (query,))
-        row = result.fetchone()
-        if row:
-            return [row]
-        
-        ## Search by exact name lowered
-        result = cursor.execute("""
-                            SELECT id, name FROM exercises WHERE lower(name) = lower(?)
-                            """, (query,))
-        row = result.fetchone()
-        if row:
-            return [row]
+        if not partial:
+            ## Search by exact id
+            result = cursor.execute("""
+                        SELECT id, name FROM exercises WHERE id = ? 
+                        """, (query,))
+            row = result.fetchone()
+            if row:
+                return [row]
+            
+            ## Search by exact name lowered
+            result = cursor.execute("""
+                                SELECT id, name FROM exercises WHERE lower(name) = lower(?)
+                                """, (query,))
+            row = result.fetchone()
+            if row:
+                return [row]
         
         ## Search partial matching using like
         result = cursor.execute("""
@@ -39,7 +40,7 @@ def search_exercise(query:str) -> list[tuple]:
     
     return []
 
-def search_exercise_bodypart(query, body_part) -> list[tuple]:
+def search_exercise_bodypart(query, body_part, partial:bool = False) -> list[tuple]:
     """
     Returns a list of exercises as a tuple with id and name -> [(exercise_id, exercise_name),...]
     If no search results, an empty list is returned
@@ -49,21 +50,22 @@ def search_exercise_bodypart(query, body_part) -> list[tuple]:
     with sqlite3.connect("skillex.db") as connection:
         cursor = connection.cursor()
         
-        ## Search by exact id
-        result = cursor.execute("""
-                       SELECT id, name FROM exercises WHERE id = ? 
-                       """, (query,))
-        row = result.fetchone()
-        if row:
-            return [row]
-        
-        ## Search by exact name lowered
-        result = cursor.execute("""
-                            SELECT id, name FROM exercises WHERE lower(name) = lower(?) AND body_part = lower(?)
-                            """, (query, body_part))
-        row = result.fetchone()
-        if row:
-            return [row]
+        if not partial:
+            ## Search by exact id
+            result = cursor.execute("""
+                        SELECT id, name FROM exercises WHERE id = ? 
+                        """, (query,))
+            row = result.fetchone()
+            if row:
+                return [row]
+            
+            ## Search by exact name lowered
+            result = cursor.execute("""
+                                SELECT id, name FROM exercises WHERE lower(name) = lower(?) AND body_part = lower(?)
+                                """, (query, body_part))
+            row = result.fetchone()
+            if row:
+                return [row]
         
         ## Search partial matching using like
         result = cursor.execute("""

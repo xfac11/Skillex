@@ -132,8 +132,9 @@ def create_exercise_experience(sleep_streak = 1,
     exercise_exp.apply_exercise_multiplier(exercise_factor)
     exercise_exp.apply_intensity_multiplier(user_speed, exercise_avg_speed_kmh, SCALING_INTENSITY)
     exercise_exp.apply_sleep_multiplier(sleep_streak, SLEEP_STREAK_RATE, SLEEP_STREAK_CAP)
-    exercise_exp.apply_strength_multiplier(weight, repeats, sets, average_volume, highest_weight)
-
+    exercise_exp.apply_strength_multiplier(weight, repeats, sets, average_volume)
+    exercise_exp.apply_strength_record_multiplier(weight, highest_weight)
+    
     return exercise_exp
     
 

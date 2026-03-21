@@ -19,9 +19,9 @@ def search(query:str, pager:bool, bodypart:str):
     """
     exercises = None
     if bodypart:
-        exercises = search_exercise_bodypart(query, bodypart)
+        exercises = search_exercise_bodypart(query, bodypart, True)
     else:
-        exercises = search_exercise(query)
+        exercises = search_exercise(query, True)
     
     if exercises is None:
         click.echo("No exercises were found.")
