@@ -29,7 +29,9 @@ class ExerciseExperience:
     
     def apply_intensity_multiplier(self, user_speed, exercise_avg_speed, scaling_intensity = SCALING_INTENSITY):
         """Applies a multipler from 1.0 (0% bonus) to 2.0 (100% bonus)"""
-        relative_intensity = (user_speed - exercise_avg_speed) / exercise_avg_speed
+        relative_intensity = 0
+        if exercise_avg_speed != 0:
+            relative_intensity = (user_speed - exercise_avg_speed) / exercise_avg_speed
         relative_intensity = clamp(relative_intensity, 0.0, 1.0) 
         
         intensity_m = 1 + relative_intensity * scaling_intensity
@@ -55,7 +57,9 @@ class ExerciseExperience:
     
     def apply_strength_multiplier(self, weight, reps, sets, average_volume):
         volume = weight * reps * sets
-        relative_volume =  volume / average_volume
+        relative_volume = 0
+        if average_volume != 0:
+            relative_volume =  volume / average_volume
 
         improvement = max(relative_volume - 1.02, 0)
 
@@ -88,8 +92,8 @@ class ExerciseExperience:
 
         return self
     
-    def get_experience_points(self):
-        return self.__exercise_xp
+    def get_experience_points(self) -> int:
+        return int(self.__exercise_xp)
     
     def get_multiplier(self):
         return self.__multiplier

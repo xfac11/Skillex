@@ -9,16 +9,17 @@ class User:
         self.body_xp = body_xp
         self.streak = streak
         self.sleep_streak = sleep_streak
-        self.highest_weight = highest_weight
+        self.highest_weight = highest_weight ##<----- Move this to the log. Each exercise has their own highest weight so it can't be on the user
 
     def repr():
         pass
     
-    """
-    returns 0 if no level was gained after increasing xp
-    returns the level if a level was gained after increasing xp
-    """
+    
     def increase_global_xp(self, xp:int) -> int:
+        """
+        returns 0 if no level was gained after increasing xp
+        returns the level if a level was gained after increasing xp
+        """
         level = calculate_global_level(self.global_xp)
         self.global_xp += xp
         level_after = calculate_global_level(self.global_xp)
@@ -27,11 +28,12 @@ class User:
             return level_after
         return 0
         
-    """
-    returns the level if it increased otherwise returns 0
-    returns -1 if the bodypart does not exist
-    """
+    
     def increase_body_xp(self, bodypart:str, xp:int) -> int:
+        """
+        returns the level if it increased otherwise returns 0
+        returns -1 if the bodypart does not exist
+        """
         xp_before = self.body_xp.get_bodypart_xp(bodypart)
         if xp_before is None:
             return -1 

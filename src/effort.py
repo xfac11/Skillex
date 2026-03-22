@@ -1,5 +1,5 @@
-import enum
-class EffortLevel(enum):
+from enum import Enum
+class EffortLevel(Enum):
     EASY = 1
     NORMAL = 2
     HARD = 3
