@@ -21,7 +21,7 @@ def create_exercise(exercise_id:str) -> Exercise:
         return new_exercise
     return None
 
-def add_to_log(user_id:int, exercise:Exercise, date:int, xp_earned:int, weight_volume:int) -> bool:
+def add_to_log(user_id:int, exercise:Exercise, date:float, xp_earned:int, weight_volume:int) -> bool:
     """
     Creates a log entry in the exercise_log table. If no table exists this function also creates it. 
     """
@@ -34,7 +34,7 @@ def add_to_log(user_id:int, exercise:Exercise, date:int, xp_earned:int, weight_v
 
         cursor.execute("""CREATE TABLE IF NOT EXISTS exercise_log (
                        id INTEGER PRIMARY KEY ASC,
-                       date INT,
+                       date FLOAT,
                        user_id INT,
                        exercise_id TEXT,
                        xp_earned INT,

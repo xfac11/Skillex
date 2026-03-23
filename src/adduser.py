@@ -15,7 +15,7 @@ def add_user(user:User) -> bool:
                            cardio_xp INTEGER,
                            upper_arms_xp INTEGER,
                            chest_xp INTEGER,
-                           lower_legs INTEGER,
+                           lower_legs_xp INTEGER,
                            back_xp INTEGER,
                            upper_legs_xp INTEGER,
                            waist_xp INTEGER,

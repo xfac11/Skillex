@@ -5,7 +5,7 @@ from calculatexperience import calculate_global_level
 from calculatexperience import calculate_body_level
 
 
-@click.command()
+@click.command(help="Shows your current stats")
 def stats():
     name_id = load_config()
     if name_id is None:

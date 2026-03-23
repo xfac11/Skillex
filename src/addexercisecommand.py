@@ -1,11 +1,13 @@
 import click
 from searchexercise import search_exercise
-from calculatexperience import create_exercise_experience
+from calculatexperience import*
 from addtolog import create_exercise
 from config import load_config
 from effort import*
 from getuser import get_user
-
+from addtolog import add_to_log
+from saveuser import save_user
+import datetime
 def calculate_average_volume(user_id:int, exercise_id:str) -> int:
     """A volume means weight x reps x sets, the average volume within the last 30 days
         This will be calculated by taking at max 30 weight volume from the same exercise divided by 30
@@ -23,7 +25,13 @@ def calculate_average_speed(user_id:int, exercise_id:str) -> float:
 @click.argument("exercise")
 def add(exercise):
     name_id = load_config()
+    if name_id is None:
+        click.echo("No user found in the config file. Please use skillex init to initiate a user")
+        return
     user = get_user(name_id[0])
+    if user is None:
+        click.echo("No user found in the database with that name. The config.json file might be corrupted")
+        return
     results = search_exercise(exercise, True)
     if len(results) == 0:
         click.echo("No exercise matches found. Use skillex search with a bodypart to find available exercises")
@@ -60,10 +68,52 @@ def add(exercise):
     exercise_avg_speed = calculate_average_speed(user.id, selected_exercise.id) 
     experience = create_exercise_experience(user.sleep_streak, repeats, sets, weight, average_volume, highest_weight, distance, time, effort.value, 1, exercise_avg_speed)
     
-    click.echo(f"Experience gained: {experience.get_experience_points()}")
     
-    level_gained = user.increase_global_xp(experience.get_experience_points())
-    level_gained = user.increase_body_xp(selected_exercise.bodypart, experience.get_experience_points())
+    global_level = user.increase_global_xp(experience.get_experience_points())    
+    body_level = user.increase_body_xp(selected_exercise.bodypart.replace(" ", "_"), experience.get_experience_points())
+    
+    add_to_log(user.id, selected_exercise, datetime.datetime.now().timestamp(), experience.get_experience_points(), repeats*sets*weight)
+    
+    save_user(user, selected_exercise.bodypart.replace(" ", "_"))
+    
+    click.echo(f"{selected_exercise.bodypart.capitalize()}++ {experience.get_experience_points()}xp")
+    click.echo(f"Global++ {experience.get_experience_points()}xp")
+    click.echo()
+    if global_level > 0:
+        click.echo("Level up!")
+        click.echo(f"Global Level {global_level - 1} --> Level {global_level}")
+        click.echo()
+    
+    if body_level > 0:
+        click.echo("Level up!")
+        click.echo(f"{selected_exercise.bodypart.capitalize()} Level {body_level - 1} --> Level {body_level}")
+        click.echo()
+    
+    
+    global_progress = calculate_global_progress_to_next(user.global_xp)
+    body_progress = calculate_body_progress_to_next(user.body_xp.get_bodypart_xp(selected_exercise.bodypart.replace(" ", "_")))
+    
+    global_progress_text = ""
+    for i in range(int(global_progress*20)):
+        global_progress_text += "█"
+    for i in range(int(global_progress*20), 20):
+        global_progress_text += " "
+    
+    click.echo(f"Global progress to next level")
+    click.echo(f"|{global_progress_text}|")
+    click.echo()
+    body_progress_text = ""
+    for i in range(int(body_progress*20)):
+        body_progress_text += "█"
+    for i in range(int(body_progress*20), 20):
+        body_progress_text += " "
+    
+    click.echo(f"{selected_exercise.bodypart.capitalize()} progress to next level")
+    click.echo(f"|{body_progress_text}|")
+    
+    
+    
+    
     
     
     
