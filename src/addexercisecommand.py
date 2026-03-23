@@ -6,7 +6,7 @@ from config import load_config
 from effort import*
 from getuser import get_user
 from addtolog import add_to_log
-from saveuser import save_user
+from saveuserxp import save_user_xp
 import datetime
 def calculate_average_volume(user_id:int, exercise_id:str) -> int:
     """A volume means weight x reps x sets, the average volume within the last 30 days
@@ -74,7 +74,7 @@ def add(exercise):
     
     add_to_log(user.id, selected_exercise, datetime.datetime.now().timestamp(), experience.get_experience_points(), repeats*sets*weight)
     
-    save_user(user, selected_exercise.bodypart.replace(" ", "_"))
+    save_user_xp(user, selected_exercise.bodypart.replace(" ", "_"))
     
     click.echo(f"{selected_exercise.bodypart.capitalize()}++ {experience.get_experience_points()}xp")
     click.echo(f"Global++ {experience.get_experience_points()}xp")

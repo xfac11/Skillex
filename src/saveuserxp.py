@@ -1,6 +1,6 @@
 import sqlite3
 from user import User
-def save_user(user:User, bodypart_id:str) -> bool:
+def save_user_xp(user:User, bodypart_id:str) -> bool:
     with sqlite3.connect("skillex.db") as connection:
         cursor = connection.cursor()
             

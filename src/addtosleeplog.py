@@ -1,6 +1,23 @@
 import sqlite3
 import datetime
 
+def sleep_log_yesterday(user_id:int) -> bool:
+    with sqlite3.connect("skillex.db") as connection:
+        cursor = connection.cursor()
+        
+        result = cursor.execute("SELECT date FROM sleep_log WHERE user_id = ? ORDER BY date", (user_id,))
+        
+        timestamp_date = result.fetchone()
+        
+        date_log = datetime.datetime.fromtimestamp(timestamp_date)
+        
+        date_log_yesterday = datetime.datetime.fromtimestamp(result.fetchone())
+        
+        yesterday = datetime.datetime.today().date() - datetime.timedelta(days=1)
+        if date_log.date() == datetime.datetime.today().date() and date_log_yesterday == yesterday:
+            return True
+    return False
+
 def is_sleep_log_updated(user_id:int) -> bool:
     with sqlite3.connect("skillex.db") as connection:
         cursor = connection.cursor()
