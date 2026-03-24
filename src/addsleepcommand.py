@@ -3,7 +3,7 @@ from addtosleeplog import*
 from config import load_config
 from getuser import get_user
 from saveusersleepstreak import save_user_sleep_streak
-@click.command()
+@click.command(help="Adds sleep hours to the log and updates your sleep streak")
 @click.argument("sleep_hours", type=float)
 def sleep(sleep_hours:float):
     name_id = load_config()

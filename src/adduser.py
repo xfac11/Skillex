@@ -1,5 +1,5 @@
 import sqlite3
-from src.user import User
+from user import User
 def add_user(user:User) -> bool:
     if user is None:
         return False
@@ -51,6 +51,8 @@ def add_user(user:User) -> bool:
         )
         
         connection.commit()
+        
+    return True
         
             
     

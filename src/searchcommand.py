@@ -2,6 +2,7 @@ import click
 
 from searchexercise import search_exercise
 from searchexercise import search_exercise_bodypart
+from existsexercisetable import exists_exercise_table
 
 def format_exercise_tuple(exercise_tuple):
     return f"{exercise_tuple[0]} | {exercise_tuple[1]}"
@@ -17,6 +18,12 @@ def search(query:str, pager:bool, bodypart:str):
     Can use exact name or id or partial name.
     If more than 15 were found a pager starts
     """
+    
+    if not exists_exercise_table():
+        click.echo("No exercises found in the database.")
+        click.echo("Please run the sync_exercises.py script in the scripts folder to download the exercises")
+        return
+    
     exercises = None
     if bodypart:
         exercises = search_exercise_bodypart(query, bodypart, True)

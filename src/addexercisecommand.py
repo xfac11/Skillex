@@ -7,7 +7,17 @@ from effort import*
 from getuser import get_user
 from addtolog import add_to_log
 from saveuserxp import save_user_xp
+import sqlite3
 import datetime
+
+def check_exercises_table() -> bool:
+    with sqlite3.connect("skillex.db") as connection:
+        cursor = connection.cursor()
+        result = cursor.execute("SELECT name FROM sqlite_master WHERE name='exercises'")
+        if result.fetchone() is None:
+            return False
+        return True
+    
 def calculate_average_volume(user_id:int, exercise_id:str) -> int:
     """A volume means weight x reps x sets, the average volume within the last 30 days
         This will be calculated by taking at max 30 weight volume from the same exercise divided by 30
@@ -24,6 +34,11 @@ def calculate_average_speed(user_id:int, exercise_id:str) -> float:
 @click.command(help="Adds an exercise using its name. The name can be partailly right")
 @click.argument("exercise")
 def add(exercise):
+    
+    if not check_exercises_table():
+        click.echo("No exercises found in the database.")
+        click.echo("Please run the sync_exercises.py script in the scripts folder to download the exercises")
+        return
     name_id = load_config()
     if name_id is None:
         click.echo("No user found in the config file. Please use skillex init to initiate a user")
