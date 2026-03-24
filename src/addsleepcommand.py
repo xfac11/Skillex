@@ -15,9 +15,10 @@ def sleep(sleep_hours:float):
         click.echo("No user found in the database with that name. The config.json file might be corrupted")
         return
     
-    if is_sleep_log_updated(user.id):
-        click.echo("You have already logged sleep hours for today.")
-        return
+    if exists_sleep_log():
+        if is_sleep_log_updated(user.id):
+            click.echo("You have already logged sleep hours for today.")
+            return
     
     add_sleep_log_entry(sleep_hours, user.id)
     
