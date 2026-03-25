@@ -1,6 +1,6 @@
 import unittest
-from src.getuser import get_user
-from src.user import User
+from getuser import get_user
+from user import User
 class TestGetUser(unittest.TestCase):
     def test_get_existing_user(self):
         user = get_user("Filip")

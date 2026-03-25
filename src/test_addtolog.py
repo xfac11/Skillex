@@ -1,6 +1,6 @@
 import unittest
-from src.addtolog import create_exercise
-from src.addtolog import add_to_log
+from addtolog import create_exercise
+from addtolog import add_to_log
 
 from datetime import datetime
 

@@ -1,8 +1,8 @@
 import unittest
 
-from src.adduser import add_user
-from src.user import User
-from src.bodyparts import BodyParts
+from adduser import add_user
+from user import User
+from bodyparts import BodyParts
 class TestAddUser(unittest.TestCase):
     def test_addoneuser(self):
         body_parts = ["lower_arms", "shoulder", "cardio", "upper_arms","chest", "lower_legs", "back", "upper_legs", "waist"]

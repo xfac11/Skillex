@@ -1,6 +1,6 @@
 import unittest
 
-from src.bodyparts import BodyParts
+from bodyparts import BodyParts
 
 class TestBodyparts(unittest.TestCase):
     def test_valid_bodypart(self):

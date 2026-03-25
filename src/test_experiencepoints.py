@@ -1,6 +1,6 @@
 import unittest
 
-from src.calculatexperience import *
+from calculatexperience import *
 
 class TestExperiencePoints(unittest.TestCase):
     def test_30_repeats(self):

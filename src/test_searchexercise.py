@@ -1,6 +1,6 @@
 import unittest
 
-from src.searchexercise import search_exercise
+from searchexercise import search_exercise
 
 class TestSearchExercise(unittest.TestCase):
     def test_query_bench(self):

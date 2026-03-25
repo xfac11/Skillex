@@ -16,7 +16,7 @@ def sleep_log_yesterday(user_id:int) -> bool:
     with sqlite3.connect("skillex.db") as connection:
         cursor = connection.cursor()
         
-        result = cursor.execute("SELECT date FROM sleep_log WHERE user_id = ? ORDER BY date", (user_id,))
+        result = cursor.execute("SELECT date FROM sleep_log WHERE user_id = ? ORDER BY date DESC", (user_id,))
         
         timestamp_date = result.fetchone()
         if timestamp_date is None:
@@ -29,8 +29,9 @@ def sleep_log_yesterday(user_id:int) -> bool:
             return True
         date_log_yesterday = datetime.datetime.fromtimestamp(log_yesterday[0])
         
-        yesterday = datetime.datetime.today().date() - datetime.timedelta(days=1)
-        if date_log.date() == datetime.datetime.today().date() and date_log_yesterday == yesterday:
+        yesterday = datetime.datetime.now() - datetime.timedelta(days=1)
+        
+        if date_log.date() == datetime.datetime.now().date() and date_log_yesterday.date() == yesterday.date():
             return True
     return False
 

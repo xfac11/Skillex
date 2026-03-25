@@ -1,9 +1,7 @@
 import unittest
 import sqlite3
 
-from src.addtolog import create_exercise
-
-
+from addtolog import create_exercise
 
 class TestCreateExerciseFromDB(unittest.TestCase):
     def test_create_one(self):
