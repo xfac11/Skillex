@@ -39,7 +39,7 @@ def is_sleep_log_updated(user_id:int) -> bool:
     with sqlite3.connect("skillex.db") as connection:
         cursor = connection.cursor()
         
-        result = cursor.execute("SELECT date FROM sleep_log WHERE user_id = ? ORDER BY date", (user_id,))
+        result = cursor.execute("SELECT date FROM sleep_log WHERE user_id = ? ORDER BY date DESC", (user_id,))
         
         timestamp_date = result.fetchone()
         if timestamp_date is None:
