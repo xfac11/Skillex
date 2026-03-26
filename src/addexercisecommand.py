@@ -69,6 +69,8 @@ def add(exercise):
     
     
     time = click.prompt("Enter in the duration of the exercise in minutes", type=int)
+    while time <= 0:
+        time = click.prompt("Enter a valid time (more than 0)", type=int)
     distance = click.prompt("Enter in the distance in km", type=float)
     click.echo("1. Easy")
     click.echo("2. Medium")
