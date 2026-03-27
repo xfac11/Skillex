@@ -1,5 +1,35 @@
 import sqlite3
 import datetime
+from saveusersleepstreak import save_user_sleep_streak
+from enum import Enum
+from user import User
+class SleepUpdateCode(Enum):
+    SLEPT_7 = 1
+    SLEPT_LESS_7 = 2
+    LOGGED_YESTERDAY = 3
+    FORGOT_YESTERDAY = 4
+    
+
+def update_sleep_streak(user:User, sleep_hours:float, logged_yesterday:bool) -> list[SleepUpdateCode]:
+    code = list()
+    if sleep_hours >= 7.0:
+        code.append(SleepUpdateCode.SLEPT_7)
+        if logged_yesterday:
+            code.append(SleepUpdateCode.LOGGED_YESTERDAY)
+            user.increase_sleep_streak()
+            return code
+        code.append(SleepUpdateCode.FORGOT_YESTERDAY)
+        user.reset_sleep_streak()
+        return code
+    else:
+        code.append(SleepUpdateCode.SLEPT_LESS_7)
+        if logged_yesterday:
+            code.append(SleepUpdateCode.LOGGED_YESTERDAY)
+            user.decrease_sleep_streak()
+            return code
+        code.append(SleepUpdateCode.FORGOT_YESTERDAY)
+        user.reset_sleep_streak()
+        return code
 
 def exists_sleep_log() -> bool:
     with sqlite3.connect("skillex.db") as connection:

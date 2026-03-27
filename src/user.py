@@ -2,7 +2,7 @@ from bodyparts import BodyParts
 from calculatexperience import calculate_body_level
 from calculatexperience import calculate_global_level
 class User:
-    def __init__(self, id:int, name:str, global_xp:int, body_xp:BodyParts, streak:int, sleep_streak:int, highest_weight:int):
+    def __init__(self, id:int, name:str, global_xp:int = 0, body_xp:BodyParts = BodyParts(), streak:int = 0, sleep_streak:int = 0, highest_weight:int = 0):
         self.name = name
         self.id = id
         self.global_xp = global_xp
@@ -50,6 +50,9 @@ class User:
     
     def increase_sleep_streak(self) -> None:
         self.sleep_streak += 1
+    
+    def reset_sleep_streak(self) -> None:
+        self.sleep_streak = 1
     
     def update_highest_weight(self, weight:int):
         self.highest_weight = weight

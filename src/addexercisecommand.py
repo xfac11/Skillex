@@ -65,12 +65,12 @@ def add(exercise):
             return
         selected_exercise = create_exercise(results[exercise_index-1][0])
     
-    click.echo(f"Selected exercise {selected_exercise.name}")
+    click.echo(f"Selected exercise {click.style(selected_exercise.name, fg='green')}")
     
     
     time = click.prompt("Enter in the duration of the exercise in minutes", type=int)
     while time <= 0:
-        time = click.prompt("Enter a valid time (more than 0)", type=int)
+        time = click.prompt("Enter a valid time that is more than 0 or press B to abort)", type=int)
     distance = click.prompt("Enter in the distance in km", type=float)
     click.echo("1. Easy")
     click.echo("2. Medium")
