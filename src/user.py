@@ -1,15 +1,20 @@
 from bodyparts import BodyParts
 from calculatexperience import calculate_body_level
 from calculatexperience import calculate_global_level
+from enum import Enum
+class SleepUpdateCode(Enum):
+    SLEPT_7 = 1
+    SLEPT_LESS_7 = 2
+    LOGGED_YESTERDAY = 3
+    FORGOT_YESTERDAY = 4
 class User:
-    def __init__(self, id:int, name:str, global_xp:int = 0, body_xp:BodyParts = BodyParts(), streak:int = 0, sleep_streak:int = 0, highest_weight:int = 0):
+    def __init__(self, id:int, name:str, global_xp:int = 0, body_xp:BodyParts = BodyParts(), streak:int = 0, sleep_streak:int = 0):
         self.name = name
         self.id = id
         self.global_xp = global_xp
         self.body_xp = body_xp
         self.streak = streak
         self.sleep_streak = sleep_streak
-        self.highest_weight = highest_weight ##<----- Move this to the log. Each exercise has their own highest weight so it can't be on the user
 
     def repr():
         pass
@@ -57,5 +62,24 @@ class User:
     def update_highest_weight(self, weight:int):
         self.highest_weight = weight
     
-    
+    def update_sleep_streak(self, sleep_hours:float, logged_yesterday:bool) -> list[SleepUpdateCode]:
+        code = list()
+        if sleep_hours >= 7.0:
+            code.append(SleepUpdateCode.SLEPT_7)
+            if logged_yesterday:
+                code.append(SleepUpdateCode.LOGGED_YESTERDAY)
+                self.increase_sleep_streak()
+                return code
+            code.append(SleepUpdateCode.FORGOT_YESTERDAY)
+            self.reset_sleep_streak()
+            return code
+        else:
+            code.append(SleepUpdateCode.SLEPT_LESS_7)
+            if logged_yesterday:
+                code.append(SleepUpdateCode.LOGGED_YESTERDAY)
+                self.decrease_sleep_streak()
+                return code
+            code.append(SleepUpdateCode.FORGOT_YESTERDAY)
+            self.reset_sleep_streak()
+            return code
         

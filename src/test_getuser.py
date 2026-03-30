@@ -1,9 +1,10 @@
 import unittest
-from getuser import get_user
+from userdatabase import UserDatabase
 from user import User
 class TestGetUser(unittest.TestCase):
     def test_get_existing_user(self):
-        user = get_user("Filip")
+        user_db = UserDatabase()
+        user = user_db.get_user("Filip")
         
         self.assertIsNotNone(user)
         self.assertEqual(user.global_xp, 100)
@@ -14,7 +15,8 @@ class TestGetUser(unittest.TestCase):
         self.assertEqual(user.sleep_streak, 0)
         
     def test_get_non_existing_user(self):
-        user = get_user("Louise")
+        user_db = UserDatabase()
+        user = user_db.get_user("Louise")
         
         self.assertIsNone(user)
     

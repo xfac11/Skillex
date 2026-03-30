@@ -1,11 +1,10 @@
 import click
 
-from searchexercise import search_exercise
-from searchexercise import search_exercise_bodypart
-from existsexercisetable import exists_exercise_table
+from exercisecatalog import ExerciseCatalog
+from exercise import Exercise
 
-def format_exercise_tuple(exercise_tuple):
-    return f"{exercise_tuple[0]} | {exercise_tuple[1]}"
+def format_exercise(exercise:Exercise):
+    return f"{exercise.id} | {exercise.name}"
 
 
 @click.command()
@@ -18,17 +17,17 @@ def search(query:str, pager:bool, bodypart:str):
     Can use exact name or id or partial name.
     If more than 15 were found a pager starts
     """
-    
-    if not exists_exercise_table():
+    exercise_catalog = ExerciseCatalog()
+    if not exercise_catalog.exists_table():
         click.echo("No exercises found in the database.")
         click.echo("Please run the sync_exercises.py script in the scripts folder to download the exercises")
         return
     
     exercises = None
     if bodypart:
-        exercises = search_exercise_bodypart(query, bodypart, True)
+        exercises = exercise_catalog.search_exercise_bodypart(query, bodypart, True)
     else:
-        exercises = search_exercise(query, True)
+        exercises = exercise_catalog.search_exercise(query, True)
     
     if exercises is None:
         click.echo("No exercises were found.")
@@ -36,11 +35,11 @@ def search(query:str, pager:bool, bodypart:str):
     
     if len(exercises) <= 15:
         for exercise in exercises:
-            click.echo(f"{exercise[0]} | {exercise[1]}")
+            click.echo(f"{exercise.id} | {exercise.name}")
         return
     
     
-    exercise_str = list(map(format_exercise_tuple, exercises))
+    exercise_str = list(map(format_exercise, exercises))
     exercise_str = "\n".join(exercise_str)
     if pager:
         click.echo_via_pager(exercise_str)

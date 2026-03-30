@@ -1,12 +1,11 @@
 import click
-from searchexercise import search_exercise
+from exercisecatalog import ExerciseCatalog
 from calculatexperience import*
-from addtolog import create_exercise
+from exerciselog import ExerciseLog
 from config import load_config
 from effort import*
-from getuser import get_user
-from addtolog import add_to_log
 from saveuserxp import save_user_xp
+from userdatabase import UserDatabase
 import sqlite3
 import datetime
 
@@ -43,27 +42,33 @@ def add(exercise):
     if name_id is None:
         click.echo("No user found in the config file. Please use skillex init to initiate a user")
         return
-    user = get_user(name_id[0])
+    
+    exercise_catalog = ExerciseCatalog()
+    
+    user_db = UserDatabase()
+    user = user_db.get_user(name_id[0])
+
     if user is None:
         click.echo("No user found in the database with that name. The config.json file might be corrupted")
         return
-    results = search_exercise(exercise, True)
+    exercise_log = ExerciseLog(user.id)
+    results = exercise_catalog.search_exercise(exercise, True)
     if len(results) == 0:
         click.echo("No exercise matches found. Use skillex search with a bodypart to find available exercises")
         return
     
     selected_exercise = None
     if len(results) == 1:
-        selected_exercise = create_exercise(results[0][0])
+        selected_exercise = results[0]
     elif len(results) > 1:
         i = 0
         for exercise in results:
-            click.echo(f"{i+1} {exercise[1]}")
+            click.echo(f"{i+1} {exercise.name}")
             i += 1
         exercise_index = click.prompt("Select one exercise from the list. Enter 0 to abort", type=int)
         if exercise_index == 0:
             return
-        selected_exercise = create_exercise(results[exercise_index-1][0])
+        selected_exercise = results[exercise_index-1]
     
     click.echo(f"Selected exercise {click.style(selected_exercise.name, fg='green')}")
     
@@ -89,7 +94,7 @@ def add(exercise):
     global_level = user.increase_global_xp(experience.get_experience_points())    
     body_level = user.increase_body_xp(selected_exercise.bodypart.replace(" ", "_"), experience.get_experience_points())
     
-    add_to_log(user.id, selected_exercise, datetime.datetime.now().timestamp(), experience.get_experience_points(), repeats*sets*weight)
+    exercise_log.add(selected_exercise, datetime.datetime.now().timestamp(), experience.get_experience_points(), repeats*sets*weight)
     
     save_user_xp(user, selected_exercise.bodypart.replace(" ", "_"))
     

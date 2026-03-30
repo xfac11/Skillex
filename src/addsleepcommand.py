@@ -1,9 +1,9 @@
 import click
-from addtosleeplog import*
+from sleeplog import SleepLog
 from config import load_config
-from getuser import get_user
-from saveusersleepstreak import save_user_sleep_streak
-
+from user import User
+from userdatabase import UserDatabase
+from user import SleepUpdateCode
 def print_sleep_streak_update(user:User, codes:list[SleepUpdateCode]) -> None:
     for code in codes:
         match code:
@@ -24,20 +24,24 @@ def sleep(sleep_hours:float):
     if name_id is None:
         click.echo("No user found in the config file. Please use skillex init to initiate a user")
         return
-    user = get_user(name_id[0])
+    user_db = UserDatabase()
+    user = user_db.get_user(name_id[0])
     if user is None:
         click.echo("No user found in the database with that name. The config.json file might be corrupted")
         return
     
-    if exists_sleep_log():
-        if is_sleep_log_updated(user.id):
+    sleep_log = SleepLog(user.id)
+    
+    if sleep_log.exists():
+        if sleep_log.is_sleep_logged(user.id):
             click.echo("You have already logged sleep hours for today.")
             return
     
-    add_sleep_log_entry(sleep_hours, user.id)
+    sleep_log.add_sleep_log_entry(sleep_hours)
     
-    codes = update_sleep_streak(user, sleep_hours, sleep_log_yesterday(user.id))
-    save_user_sleep_streak(user, user.sleep_streak)
+    codes = user.update_sleep_streak(sleep_hours, sleep_log.has_logged_yesterday())
+    
+    user_db.save_user(user)
     
     print_sleep_streak_update(user, codes)
     

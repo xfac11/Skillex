@@ -1,9 +1,8 @@
 import click
 from config import save_config
-from adduser import add_user
+from userdatabase import UserDatabase
 from user import User
 from bodyparts import BodyParts
-from getuser import get_user
 @click.command()
 def init():
     click.echo("Welcome to Skillex!")
@@ -11,12 +10,13 @@ def init():
     click.echo("Gain xp and level up you and your body")
     click.echo()
     name = click.prompt("Enter in your name")
-    if not add_user(User(-1, name, 0, BodyParts(), 0, 0, 0)):
+    user_db = UserDatabase("skillex.db")
+    if not user_db.add_user(User(-1, name, 0, BodyParts(), 0, 0, 0)):
         click.echo("Something went wrong when adding a user with this name")
         click.echo("Choose a different name. Aborting")
         return
     
-    user = get_user(name)
+    user = user_db.get_user(name)
     if user is None:
         click.echo("Something went wrong when retreiving the user. Aborting")
     if not save_config(user.name, user.id):
