@@ -6,6 +6,9 @@ class UserDatabase:
         self.table = "users"
     
     def add_user(self, user:User) -> bool:
+        """Adds the user to the database table. 
+        Returns False if user is none or has the same name as some other user. 
+        Otherwise returns True"""
         if user is None:
             return False
         with sqlite3.connect(self.database_path) as connection:
@@ -57,10 +60,10 @@ class UserDatabase:
             
         return True
     
-    def remove_user(self, name) -> bool:
+    def remove_user(self, name:str) -> bool:
         raise NotImplementedError
     
-    def get_user(self, name) -> User:
+    def get_user(self, name:str) -> User:
         """Returns the user with this name or None if no was found"""
         with sqlite3.connect(self.database_path) as connection:
     
@@ -87,6 +90,7 @@ class UserDatabase:
         return None
     
     def save_user(self, user:User) -> bool:
+        """Saves all the variables of a user to the database"""
         with sqlite3.connection(self.database_path) as connection:
             cursor = connection.cursor()
             

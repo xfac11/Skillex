@@ -1,8 +1,8 @@
 import click
 from config import load_config
-from getuser import get_user
+from userdatabase import UserDatabase
+from user import User
 from calculatexperience import calculate_global_level
-from calculatexperience import calculate_body_level
 
 
 @click.command(help="Shows your current stats")
@@ -11,7 +11,8 @@ def stats():
     if name_id is None:
         click.echo("No user found in the config file. Please use skillex init to initiate a user")
         return
-    user = get_user(name_id[0])
+    user_db = UserDatabase()
+    user:User = user_db.get_user(name_id[0])
     if user is None:
         click.echo("No user found in the database with that name. The config.json file might be corrupted")
         return
