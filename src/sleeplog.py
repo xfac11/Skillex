@@ -56,6 +56,7 @@ class SleepLog:
         return entries
     
     def is_sleep_logged(self) -> bool:
+        """Returns True if the user has logged sleep for today. Otherwise False"""
         with sqlite3.connect("skillex.db") as connection:
             cursor = connection.cursor()
             
