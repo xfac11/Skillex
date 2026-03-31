@@ -6,3 +6,6 @@ class Exercise:
         self.target_muscle = target_muscle
         self.equipment = equipment
         self.exercise_multiplier = exercise_multiplier
+    
+    def __repr__(self):
+        return self.name

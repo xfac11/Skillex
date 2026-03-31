@@ -5,6 +5,7 @@ from exerciselog import ExerciseLog
 from config import load_config
 from effort import*
 from userdatabase import UserDatabase
+from selector import Selector
 import datetime
 
 def calculate_average_volume(user_id:int, exercise_id:str) -> int:
@@ -51,14 +52,11 @@ def add(exercise):
     if len(results) == 1:
         selected_exercise = results[0]
     elif len(results) > 1:
-        i = 0
-        for exercise in results:
-            click.echo(f"{i+1} {exercise.name}")
-            i += 1
-        exercise_index = click.prompt("Select one exercise from the list. Enter 0 to abort", type=int)
-        if exercise_index == 0:
+        exercise_selector = Selector("Select one exercise.", results)
+        exercise = exercise_selector.select()
+        if not exercise:
             return
-        selected_exercise = results[exercise_index-1]
+        selected_exercise = exercise
     
     click.echo(f"Selected exercise {click.style(selected_exercise.name, fg='green')}")
     
@@ -67,10 +65,8 @@ def add(exercise):
     while time <= 0:
         time = click.prompt("Enter a valid time that is more than 0 or press B to abort)", type=int)
     distance = click.prompt("Enter in the distance in km", type=float)
-    click.echo("1. Easy")
-    click.echo("2. Medium")
-    click.echo("3. Hard")
-    effort_level = click.prompt("Select your effort", type=int)
+    selector = Selector("Select your effort", [EffortLevel.EASY, EffortLevel.MEDIUM, EffortLevel.HARD])
+    effort_level = selector.select()
     effort = Effort(EffortLevel(effort_level))
     repeats = click.prompt("Enter in the number of repeats", type=int)
     sets = click.prompt("Enter in the number of sets", type=int)
