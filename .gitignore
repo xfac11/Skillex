@@ -207,6 +207,6 @@ marimo/_lsp/
 __marimo__/
 
 
-# Skillex specific
+# Skillex specific which are created by the script and application
 skillex.db
 config.json

@@ -1,5 +1,6 @@
 import click
 from exercisecatalog import ExerciseCatalog
+from exerciselogentry import ExerciseLogEntry
 from calculatexperience import*
 from exerciselog import ExerciseLog
 from config import load_config
@@ -7,20 +8,6 @@ from effort import*
 from userdatabase import UserDatabase
 from selector import Selector
 import datetime
-
-def calculate_average_volume(user_id:int, exercise_id:str) -> int:
-    """A volume means weight x reps x sets, the average volume within the last 30 days
-        This will be calculated by taking at max 30 weight volume from the same exercise divided by 30
-    """
-    return 0
-
-def get_highest_weight(user_id:int, exercise_id:str) -> int:
-    """This is the highest weight used in this exercise. Look in the logs to retrieve the highest weight"""
-    return 0
-
-def calculate_average_speed(user_id:int, exercise_id:str) -> float:
-    """This is the average speed calculated using the last 30 exercises of this type. """
-    return 0
 @click.command(help="Adds an exercise using its name. The name can be partailly right")
 @click.argument("exercise")
 def add(exercise):
@@ -71,16 +58,16 @@ def add(exercise):
     repeats = click.prompt("Enter in the number of repeats", type=int)
     sets = click.prompt("Enter in the number of sets", type=int)
     weight = click.prompt("Enter in the weight used in kg", type=float)
-    average_volume = calculate_average_volume(user.id, selected_exercise.id) 
-    highest_weight = get_highest_weight(user.id, selected_exercise.id)
-    exercise_avg_speed = calculate_average_speed(user.id, selected_exercise.id) 
+    average_volume = exercise_log.get_average_weight_volume(selected_exercise.id) 
+    highest_weight = exercise_log.get_highest_weight(selected_exercise.id)
+    exercise_avg_speed = exercise_log.get_average_speed(selected_exercise.id) 
     experience = create_exercise_experience(user.sleep_streak, repeats, sets, weight, average_volume, highest_weight, distance, time, effort.value, 1, exercise_avg_speed)
     
     
     global_level = user.increase_global_xp(experience.get_experience_points())    
     body_level = user.increase_body_xp(selected_exercise.bodypart.replace(" ", "_"), experience.get_experience_points())
     
-    exercise_log.add(selected_exercise, datetime.datetime.now().timestamp(), experience.get_experience_points(), repeats*sets*weight)
+    exercise_log.add(selected_exercise, datetime.datetime.now().timestamp(), experience.get_experience_points(), repeats*sets*weight, distance / (time / 60))
     
     user_db.save_user(user)
     
