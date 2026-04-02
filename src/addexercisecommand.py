@@ -70,7 +70,7 @@ def add(exercise):
     global_level = user.increase_global_xp(experience.get_experience_points())    
     body_level = user.increase_body_xp(selected_exercise.bodypart.replace(" ", "_"), experience.get_experience_points())
     
-    exercise_log.add(selected_exercise, datetime.datetime.now().timestamp(), experience.get_experience_points(), repeats*sets*weight, distance / (time / 60), weight)
+    exercise_log.add(selected_exercise, datetime.datetime.now().timestamp(), experience.get_experience_points(), repeats*sets*weight, distance / (time / 60), weight, time)
     
     user_db.save_user(user)
     

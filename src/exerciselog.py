@@ -19,12 +19,12 @@ class ExerciseLog:
             return True
         return False
     
-    def add(self, exercise:Exercise, date:float, xp_earned:int, weight_volume:int, speed:float, weight:float) -> bool:
+    def add(self, exercise:Exercise, date:float, xp_earned:int, weight_volume:int, speed:float, weight:float, time_minutes:int) -> bool:
         """
         Creates a log entry in the exercise_log table. If no table exists this function also creates it. 
         """
         ### SQL handles the id creation with auto increment
-        log_entry = ExerciseLogEntry(-1, date, self.user_id, exercise.id, xp_earned, weight_volume, speed, weight)
+        log_entry = ExerciseLogEntry(-1, date, self.user_id, exercise.id, xp_earned, weight_volume, speed, weight, time_minutes)
 
         with sqlite3.connect("skillex.db") as connection:
 
@@ -39,6 +39,7 @@ class ExerciseLog:
                         weight_volume INT,
                         speed FLOAT,
                         weight FLOAT,
+                        time_minutes INT,
                         FOREIGN KEY (user_id) REFERENCES users(id)
                         FOREIGN KEY (exercise_id) REFERENCES exercises(id)
                         )
@@ -49,8 +50,8 @@ class ExerciseLog:
                 raise Exception("Could not create or find table")
             
             cursor.execute("""
-                            INSERT INTO exercise_log VALUES(NULL, ?, ?, ?, ?, ?, ?, ?)
-                            """, (log_entry.date, log_entry.user_id, log_entry.exercise_id, log_entry.xp_earned, log_entry.weight_volume, log_entry.speed, log_entry.weight))
+                            INSERT INTO exercise_log VALUES(NULL, ?, ?, ?, ?, ?, ?, ?, ?)
+                            """, (log_entry.date, log_entry.user_id, log_entry.exercise_id, log_entry.xp_earned, log_entry.weight_volume, log_entry.speed, log_entry.weight, log_entry.time_minutes))
             
             connection.commit()
 
@@ -72,7 +73,7 @@ class ExerciseLog:
             logs = []
             entries = result.fetchall()
             for entry in entries:
-                logs.append(ExerciseLogEntry(entry[0], entry[1], entry[2], entry[3], entry[4], entry[5], entry[6], entry[7]))
+                logs.append(ExerciseLogEntry(entry[0], entry[1], entry[2], entry[3], entry[4], entry[5], entry[6], entry[7], entry[8]))
             
             return logs
         return []
