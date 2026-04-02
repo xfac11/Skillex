@@ -5,6 +5,18 @@ class UserDatabase:
         self.database_path = database_path
         self.table = "users"
     
+    def exists(self) -> bool:
+        with sqlite3.connect(self.database_path) as connection:
+            cursor = connection.cursor()
+            
+            result = cursor.execute("SELECT name FROM sqlite_master WHERE name='users'")
+            if result.fetchone() is None:
+                return False
+            return True
+        return False
+            
+            
+    
     def add_user(self, user:User) -> bool:
         """Adds the user to the database table. 
         Returns False if user is none or has the same name as some other user. 
@@ -28,8 +40,7 @@ class UserDatabase:
                             upper_legs_xp INTEGER,
                             waist_xp INTEGER,
                             streak INTEGER,
-                            sleep_streak INTEGER,
-                            highest_weight INTEGER
+                            sleep_streak INTEGER
                             )
                         """)
             params = (user.name,)
@@ -50,10 +61,9 @@ class UserDatabase:
                     user.body_xp.get_bodypart_xp("upper_legs"),
                     user.body_xp.get_bodypart_xp("waist"),
                     user.streak,
-                    user.sleep_streak,
-                    user.highest_weight)
+                    user.sleep_streak)
             cursor.execute("""
-                        INSERT INTO users VALUES(NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                        INSERT INTO users VALUES(NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                         """, params          
             )
             connection.commit()
@@ -70,7 +80,9 @@ class UserDatabase:
             cursor = connection.cursor()
 
             params = (name,)
+            
             result = cursor.execute("SELECT * FROM users WHERE name = ?", params)
+            
 
             user_db = result.fetchone()
             if user_db == None:
@@ -91,7 +103,7 @@ class UserDatabase:
     
     def save_user(self, user:User) -> bool:
         """Saves all the variables of a user to the database"""
-        with sqlite3.connection(self.database_path) as connection:
+        with sqlite3.connect(self.database_path) as connection:
             cursor = connection.cursor()
             
             cursor.execute("""
@@ -122,7 +134,8 @@ class UserDatabase:
                           user.body_xp.get_bodypart_xp("upper_legs"),
                           user.body_xp.get_bodypart_xp("waist"),
                           user.streak,
-                          user.sleep_streak)
+                          user.sleep_streak,
+                          user.id)
             )
         
             connection.commit()

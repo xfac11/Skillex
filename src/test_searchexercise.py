@@ -1,10 +1,10 @@
 import unittest
 
-from searchexercise import search_exercise
+from exercisecatalog import ExerciseCatalog
 
 class TestSearchExercise(unittest.TestCase):
     def test_query_bench(self):
-        hits = search_exercise("bench")
+        hits = ExerciseCatalog().search_exercise("bench")
         self.assertIn("bench pull-ups", hits[0])
     
     def test_query_by_id(self):

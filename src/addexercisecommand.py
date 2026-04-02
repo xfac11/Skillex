@@ -24,6 +24,9 @@ def add(exercise):
     
     
     user_db = UserDatabase()
+    if not user_db.exists():
+        click.echo("No user has been added to the database. Please use skillex init to initiate a user")
+        return
     user = user_db.get_user(name_id[0])
 
     if user is None:
@@ -52,7 +55,7 @@ def add(exercise):
     while time <= 0:
         time = click.prompt("Enter a valid time that is more than 0 or press B to abort)", type=int)
     distance = click.prompt("Enter in the distance in km", type=float)
-    selector = Selector("Select your effort", [EffortLevel.EASY, EffortLevel.MEDIUM, EffortLevel.HARD])
+    selector = Selector("Select your effort", [EffortLevel.EASY, EffortLevel.NORMAL, EffortLevel.HARD])
     effort_level = selector.select()
     effort = Effort(EffortLevel(effort_level))
     repeats = click.prompt("Enter in the number of repeats", type=int)
@@ -67,7 +70,7 @@ def add(exercise):
     global_level = user.increase_global_xp(experience.get_experience_points())    
     body_level = user.increase_body_xp(selected_exercise.bodypart.replace(" ", "_"), experience.get_experience_points())
     
-    exercise_log.add(selected_exercise, datetime.datetime.now().timestamp(), experience.get_experience_points(), repeats*sets*weight, distance / (time / 60))
+    exercise_log.add(selected_exercise, datetime.datetime.now().timestamp(), experience.get_experience_points(), repeats*sets*weight, distance / (time / 60), weight)
     
     user_db.save_user(user)
     

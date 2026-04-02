@@ -1,5 +1,6 @@
 import unittest
-from addtosleeplog import*
+from sleeplog import SleepLog
+from user import User
 
 class TestSleepLog(unittest.TestCase):
     def test_yesterday(self):

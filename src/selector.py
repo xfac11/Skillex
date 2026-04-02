@@ -12,7 +12,7 @@ class Selector:
         if test_input:
             click.echo(self.message)
             return self.selection_list[test_input - 1]
-        prompt_input = click.prompt(self.message, show_choices=True, type=click.Choice(self.selection_list))
+        prompt_input = click.prompt(self.message, show_choices=True, type=int)
         if prompt_input == 0:
             return None
         return self.selection_list[prompt_input - 1]

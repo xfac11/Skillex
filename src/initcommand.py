@@ -11,7 +11,7 @@ def init():
     click.echo()
     name = click.prompt("Enter in your name")
     user_db = UserDatabase("skillex.db")
-    if not user_db.add_user(User(-1, name, 0, BodyParts(), 0, 0, 0)):
+    if not user_db.add_user(User(-1, name, 0, BodyParts(), 0, 0)):
         click.echo("Something went wrong when adding a user with this name")
         click.echo("Choose a different name. Aborting")
         return

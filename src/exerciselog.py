@@ -6,6 +6,18 @@ class ExerciseLog:
     def __init__(self, user_id:int):
         self.database = "skillex"
         self.user_id = user_id
+        
+    def exists(self) -> bool:
+        with sqlite3.connect("skillex.db") as connection:
+
+            cursor = connection.cursor()
+            
+            result = cursor.execute("SELECT name FROM sqlite_master WHERE name='exercise_log'")
+            if result.fetchone() is None:
+                return False
+
+            return True
+        return False
     
     def add(self, exercise:Exercise, date:float, xp_earned:int, weight_volume:int, speed:float, weight:float) -> bool:
         """
@@ -47,7 +59,24 @@ class ExerciseLog:
 
     
     def get(self, exercise_id:str) -> list[ExerciseLogEntry]:
-        pass
+        if not self.exists():
+            return []
+        with sqlite3.connect("skillex.db") as connection:
+            cursor = connection.cursor()
+            
+            result = cursor.execute("SELECT * FROM exercise_log WHERE id = ?", (exercise_id,))
+            
+            if result is None:
+                return []
+            
+            logs = []
+            entries = result.fetchall()
+            for entry in entries:
+                logs.append(ExerciseLogEntry(entry[0], entry[1], entry[2], entry[3], entry[4], entry[5], entry[6], entry[7]))
+            
+            return logs
+        return []
+            
     
     def get_all(self) -> list[ExerciseLogEntry]:
         pass
