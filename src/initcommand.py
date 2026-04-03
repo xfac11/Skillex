@@ -5,6 +5,7 @@ from user import User
 from bodyparts import BodyParts
 @click.command()
 def init():
+    """Initiate a user and adds it to the database and config file."""
     click.echo("Welcome to Skillex!")
     click.echo("Skillex tracks exercises using commands and tracks your sleep")
     click.echo("Gain xp and level up you and your body")
