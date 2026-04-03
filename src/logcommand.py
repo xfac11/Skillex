@@ -22,7 +22,8 @@ def log(exercise_id, days):
     
     exercise_log = ExerciseLog(user.id)
     entries = exercise_log.get_days(days, exercise_id)
-    
+    if len(entries) == 0:
+        return
     log_ui = LogUI(entries)
     click.echo(log_ui.to_string())
     

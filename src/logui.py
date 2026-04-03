@@ -14,7 +14,7 @@ class LogUI():
         for entry in self.entries:
             if datetime.datetime.fromtimestamp(current_date).date() != datetime.datetime.fromtimestamp(entry.date).date():
                 current_date = entry.date
-                datetime.datetime.fromtimestamp(current_date).date()
+                str += click.style(f"Date: {datetime.datetime.fromtimestamp(current_date).date()} \n", fg="blue")
             
             exercise = ExerciseCatalog().get_exercise(entry.exercise_id)
             
