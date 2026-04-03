@@ -28,7 +28,20 @@ class ExerciseCatalog:
                 exercise_tuple = result.fetchone()
                 return Exercise(exercise_tuple[0], exercise_tuple[1], exercise_tuple[2], exercise_tuple[3], exercise_tuple[4])
         return None
+    
+    def get_exercise_raw_json(self, id:str) -> str:
+        """Returns the raw json data"""
+        if id is None:
+            return None
+        with sqlite3.connect(self.database) as connection:
+            cursor = connection.cursor()
             
+            result = cursor.execute("SELECT raw_json FROM exercises WHERE id = ?", (id,))
+            
+            if result is not None:
+                raw_json = result.fetchone()
+                return raw_json[0]
+        return None
     
     def search_exercise(self, query:str, partial:bool = False) -> list[Exercise]:
         """
