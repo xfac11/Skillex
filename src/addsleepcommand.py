@@ -33,7 +33,7 @@ def sleep(sleep_hours:float):
     sleep_log = SleepLog(user.id)
     
     if sleep_log.exists():
-        if sleep_log.is_sleep_logged(user.id):
+        if sleep_log.is_sleep_logged():
             click.echo("You have already logged sleep hours for today.")
             return
     
