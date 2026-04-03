@@ -15,7 +15,7 @@ class LogUI():
             if datetime.datetime.fromtimestamp(current_date).date() != datetime.datetime.fromtimestamp(entry.date).date():
                 current_date = entry.date
                 str += click.style(f"Date: {datetime.datetime.fromtimestamp(current_date).date()} \n", fg="blue")
-            
+                str += "--------\n"
             exercise = ExerciseCatalog().get_exercise(entry.exercise_id)
             
             str += click.style(exercise.name.capitalize() + "\n", fg="green")
