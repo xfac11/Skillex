@@ -9,3 +9,6 @@ class ExerciseLogEntry:
         self.weight = weight
         self.speed = speed
         self.time_minutes = time_minutes
+    
+    def __repr__(self):
+        return f"{self.date} , {self.user_id}"

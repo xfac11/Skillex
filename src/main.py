@@ -5,7 +5,7 @@ from viewusercommand import stats
 from addexercisecommand import add
 from addsleepcommand import sleep
 from initcommand import init
-
+from logcommand import log
 @click.group()
 def cli() -> None:
     """An exercise tracker CLI using gamification"""
@@ -17,6 +17,7 @@ cli.add_command(stats)
 cli.add_command(sleep)
 cli.add_command(add)
 cli.add_command(init)
+cli.add_command(log)
 
 if __name__ == "__main__":
     cli()

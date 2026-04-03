@@ -24,7 +24,7 @@ class ExerciseCatalog:
             
             result = cursor.execute("SELECT id, name, body_part, target, equipment FROM exercises WHERE id = ?", (id,))
             
-            if result is not None and len(result) > 0:
+            if result is not None:
                 exercise_tuple = result.fetchone()
                 return Exercise(exercise_tuple[0], exercise_tuple[1], exercise_tuple[2], exercise_tuple[3], exercise_tuple[4])
         return None

@@ -2,6 +2,7 @@ import sqlite3
 from exercise import Exercise
 from exerciselogentry import ExerciseLogEntry
 import statistics
+import datetime
 class ExerciseLog:
     def __init__(self, user_id:int):
         self.database = "skillex"
@@ -65,7 +66,7 @@ class ExerciseLog:
         with sqlite3.connect("skillex.db") as connection:
             cursor = connection.cursor()
             
-            result = cursor.execute("SELECT * FROM exercise_log WHERE id = ?", (exercise_id,))
+            result = cursor.execute("SELECT * FROM exercise_log WHERE exercise_id = ? AND user_id = ? ORDER BY date DESC", (exercise_id, self.user_id))
             
             if result is None:
                 return []
@@ -73,14 +74,29 @@ class ExerciseLog:
             logs = []
             entries = result.fetchall()
             for entry in entries:
-                logs.append(ExerciseLogEntry(entry[0], entry[1], entry[2], entry[3], entry[4], entry[5], entry[6], entry[7], entry[8]))
+                logs.append(self.create_log_entry_from_tuple(entry))
             
             return logs
         return []
             
     
     def get_all(self) -> list[ExerciseLogEntry]:
-        pass
+        """Returns all entries in the log that belongs to the user ordered by date DESC"""
+        with sqlite3.connect("skillex.db") as connection:
+            cursor = connection.cursor()
+            
+            result = cursor.execute("SELECT * FROM exercise_log WHERE user_id = ? ORDER BY date DESC", (self.user_id,))
+            
+            if result is None:
+                return []
+            
+            logs = []
+            entries = result.fetchall()
+            for entry in entries:
+                logs.append(self.create_log_entry_from_tuple(entry))
+            
+            return logs
+        return []
     
     def get_average_speed(self, exercise_id:str) -> float:
         """This is the average speed calculated using the last 30 exercises of this type. """
@@ -114,3 +130,25 @@ class ExerciseLog:
         list_of_weights = list(map(lambda entry : entry.weight, log_entries))
         
         return max(list_of_weights)
+    
+    def create_log_entry_from_tuple(self, tuple) -> ExerciseLogEntry:
+        return ExerciseLogEntry(tuple[0], tuple[1], tuple[2], tuple[3], tuple[4], tuple[5], tuple[6], tuple[7], tuple[8])
+    
+    def get_days(self, past_days:int = 0, exercise_id:str = None) -> list[ExerciseLogEntry]:
+        all_entries = None
+        if exercise_id is None:
+            all_entries = self.get_all()
+        else:
+            all_entries = self.get(exercise_id)
+        entries = []
+        if past_days == 0:
+            return all_entries
+        
+        limit = datetime.datetime.now() - datetime.timedelta(days=past_days)
+        for entry in all_entries:
+            date = datetime.datetime.fromtimestamp(entry.date)
+            if date.date() == limit.date():
+                return entries
+            entries.append(entry)
+        return entries
+    
