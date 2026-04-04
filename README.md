@@ -9,6 +9,9 @@ Exercise tracker on the command line. Skillex tracks your workout and gives expe
 5. Call `skillex stats` to see your current progress.
 6. Use `skillex sleep [hours_slept]` to track your sleep. This will increase your experience points gained when using `skillex add`.
 
+## Commands
+- init NAME
+- - Adds one user called NAME and let's you call other commands related to the user.
 
 ## Third-party
 - [ExerciseDB API](https://exercisedb.dev/) for getting body parts and exercises. It's an open-source free exercise database.
