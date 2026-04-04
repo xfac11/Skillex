@@ -8,3 +8,5 @@ dependencies = [
     "click>=8.3.1",
     "requests>=2.32.5",
 ]
+[project.scripts]
+skillex = "src.main:cli"
