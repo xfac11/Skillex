@@ -11,7 +11,7 @@ Exercise tracker on the command line. Skillex tracks your workout and gives expe
 
 ## Commands
 - init NAME
-Adds one user called NAME and let's you call other commands related to the user.
+ Adds one user called NAME and let's you call other commands related to the user.
 
 ## Third-party
 - [ExerciseDB API](https://exercisedb.dev/) for getting body parts and exercises. It's an open-source free exercise database.
