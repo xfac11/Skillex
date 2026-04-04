@@ -36,7 +36,7 @@ def get_exercises_from_api(print_debug:bool = False) -> list[dict]:
         data = response.json()
         
         if data["success"] != True:
-            raise Exception("Couln't retrieve data")
+            raise Exception("Couldn't retrieve data")
         exercises.extend(data["data"])
         
         progress = data["metadata"]["currentPage"] / 150
