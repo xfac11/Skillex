@@ -19,9 +19,9 @@ Used to add one exercise to the current users log and gain XP. It uses partial s
 - bodyparts
 
 Shows a list of available bodyparts
-- search QUERY
+- search QUERY --bodypart BODYPART
 
-Searches exercises with the QUERY and prints out their id and name. Uses partial search.
+Searches exercises with the QUERY and prints out their id and name. Uses partial search. Can use the optional --bodypart to only show exercises with this bodypart
 - stats
 
 Shows the current users global and bodyparts level and sleep streak
