@@ -39,3 +39,4 @@ Changes the current user to this user with this NAME.
 ## Third-party
 - [ExerciseDB API](https://exercisedb.dev/) for getting body parts and exercises. It's an open-source free exercise database.
 - [Click](https://click.palletsprojects.com/en/stable/) for creating command line interfaces.
+- [SQLite 3](https://docs.python.org/3/library/sqlite3.html) for creating SQLite databases and executing SQL queries.
