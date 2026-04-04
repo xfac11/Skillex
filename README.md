@@ -4,7 +4,7 @@ Exercise tracker on the command line. Skillex tracks your workout and gives expe
 ## How to use
 1. Start by cloning the latest version: `git clone URL`.
 
-2. Then run sync_exercises.py script in the scripts folder. This downloads the exercises.
+2. Then run `uv run scripts/sync_exercises.py`. This downloads the exercises.
 
 3. When that is done, call `uv run skillex init` to create a user
 
