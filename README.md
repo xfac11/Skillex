@@ -1,8 +1,11 @@
-# Skillex
-Exercise tracker on the command line. Skillex tracks your workout and gives experience points when completeing exercises. Level up and see your stats increase both in real life and digitaly. 
+# Skillex >/H
 
+Exercise tracker on the command line. Skillex tracks your workout and gives experience points when completeing exercises. Level up and see your stats increase both in real life and digitaly. 
+                
 ## How to use
 1. Start by cloning the repository: `git clone https://github.com/xfac11/Skillex.git`.
+
+2. Change the current diretory to the Skillex folder where you cloned the project `cd Skillex`
 
 2. Then run `uv run scripts/sync_exercises.py`. This downloads the exercises.
 

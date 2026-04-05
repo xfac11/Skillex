@@ -6,7 +6,16 @@ from bodyparts import BodyParts
 @click.command()
 def init():
     """Initiate a user and adds it to the database and config file."""
-    click.echo("Welcome to Skillex!")
+    click.echo("Welcome to")
+    click.echo(click.style("""
+     _______. __  ___  __   __       __       __________   ___    ___       _____    __  
+    /       ||  |/  / |  | |  |     |  |     |   ____\  \ /  /    \  \     /  /  |  |  | 
+   |   (----`|  '  /  |  | |  |     |  |     |  |__   \  V  /      \  \   /  /|  |__|  | 
+    \   \    |    <   |  | |  |     |  |     |   __|   >   <        >  > /  / |   __   | 
+.----)   |   |  .  \  |  | |  `----.|  `----.|  |____ /  .  \      /  / /  /  |  |  |  | 
+|_______/    |__|\__\ |__| |_______||_______||_______/__/ \__\    /__/ /__/   |__|  |__| 
+                                                                                         
+               """, fg="red"))
     click.echo("Skillex tracks exercises using commands and tracks your sleep")
     click.echo("Gain xp and level up you and your body")
     click.echo()
