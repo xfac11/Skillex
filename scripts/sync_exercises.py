@@ -2,6 +2,11 @@ import requests
 import time
 import random
 import sqlite3
+from enum import Enum
+class ResponseCode(Enum):
+ 200 = OK
+ 404 = NOT_FOUND
+ 429 = TOO_MANY_REQUESTS
 
 LINE_UP = '\033[1A'
 LINE_CLEAR = '\x1b[2K'
