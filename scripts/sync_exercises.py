@@ -5,6 +5,7 @@ import sqlite3
 from enum import Enum
 class ResponseCode(Enum):
  200 = OK
+ 403 = FORBIDDEN
  404 = NOT_FOUND
  429 = TOO_MANY_REQUESTS
 
