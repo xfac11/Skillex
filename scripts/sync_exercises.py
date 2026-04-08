@@ -4,10 +4,10 @@ import random
 import sqlite3
 from enum import Enum
 class ResponseCode(Enum):
- 200 = OK
- 403 = FORBIDDEN
- 404 = NOT_FOUND
- 429 = TOO_MANY_REQUESTS
+    OK = 200
+    FORBIDDEN  = 403
+    NOT_FOUND = 404
+    TOO_MANY_REQUESTS = 429
 
 LINE_UP = '\033[1A'
 LINE_CLEAR = '\x1b[2K'
@@ -29,16 +29,30 @@ def get_exercises_from_api(print_debug:bool = False) -> list[dict]:
     exercises = []
     progress = 1/150
     while current_page != None:
-        response = session.get(current_page, headers=HEADERS)
-        if response.status_code == 429:
-            wait = 20
-            if print_debug : print(f"{int(progress*100)}%")
-            time.sleep(wait)
-            if print_debug : print(LINE_UP, end=LINE_CLEAR)
-            continue
-
-        response.raise_for_status()
-
+        response = session.get(current_page, headers=HEADERS)        
+        
+        
+        try:
+            response.raise_for_status()
+        except requests.HTTPError as e:
+            match e.errno:
+                case ResponseCode.FORBIDDEN:
+                    print(e)
+                    return
+                case ResponseCode.NOT_FOUND:
+                    print(e)
+                    return
+                case ResponseCode.TOO_MANY_REQUESTS:
+                    wait = 20
+                    if print_debug : print(f"{int(progress*100)}%")
+                    time.sleep(wait)
+                    if print_debug : print(LINE_UP, end=LINE_CLEAR)
+                    continue
+                case _:
+                    print(e)
+                    return
+        
+            
         data = response.json()
         
         if data["success"] != True:
@@ -82,6 +96,8 @@ def save_exercises_to_table(connection:sqlite3.Connection, exercises):
     
 
 def save_to_database(exercises):
+    if exercises is None:
+        raise ValueError
     with sqlite3.connect(DB_PATH) as connection:
 
         create_exercises_table(connection)
@@ -95,8 +111,12 @@ def main():
     print(f"Downloading exercises from {BASE_URL}")
 
     exercises = get_exercises_from_api(True)
-
+    if exercises is None:
+        print("No exercises created. Aborting")
+        return
+    
     print(f"Saving exercises into {DB_PATH}")
+    
     save_to_database(exercises)
 
     print("Finished!")
