@@ -23,6 +23,7 @@ def log(exercise_id, days):
     exercise_log = ExerciseLog(user.id)
     entries = exercise_log.get_days(days, exercise_id)
     if len(entries) == 0:
+        click.echo("No entries in the log. Start exercising and add them with skillex add")
         return
     log_ui = LogUI(entries)
     click.echo(log_ui.to_string())
