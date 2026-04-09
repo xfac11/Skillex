@@ -121,7 +121,7 @@ def save_exercises_to_table(connection:sqlite3.Connection, exercises):
         category = exercise["category"]
         bodypart = get_bodypart_from_muscle(primary_muscle, category)
         cursor.execute("INSERT OR REPLACE INTO exercises VALUES(?, ?, ?, ?, ?, ?)",
-                        (exercise["id"], exercise["name"], bodypart, primary_muscle, exercise["equipment"], str(exercise)))
+                        (exercise["id"], exercise["name"], bodypart, primary_muscle, exercise["equipment"] or "None", str(exercise)))
     
 
 def save_to_database(exercises):
