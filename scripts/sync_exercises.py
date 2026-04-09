@@ -18,54 +18,39 @@ HEADERS = {
 
 DB_PATH = "skillex.db"
 
-BASE_URL = "https://exercisedb.dev/api/v1/exercises"
+BASE_URL = "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/dist/exercises.json"
 
 
 def get_exercises_from_api(print_debug:bool = False) -> list[dict]:
 
     session = requests.sessions.Session()
 
-    current_page = BASE_URL
     exercises = []
-    progress = 1/150
-    while current_page != None:
-        response = session.get(current_page, headers=HEADERS)        
+    response = session.get(BASE_URL, headers=HEADERS)        
+    
+    try:
+        response.raise_for_status()
+    except requests.HTTPError as e:
+        match e.errno:
+            case ResponseCode.FORBIDDEN:
+                print(e)
+                return []
+            case ResponseCode.NOT_FOUND:
+                print(e)
+                return []
+            case ResponseCode.TOO_MANY_REQUESTS:
+                print(e)
+                return []
+            case _:
+                print(e)
+                return []
+        print(e)
+        return []
+    data = response.json()
         
-        
-        try:
-            response.raise_for_status()
-        except requests.HTTPError as e:
-            match e.errno:
-                case ResponseCode.FORBIDDEN:
-                    print(e)
-                    return
-                case ResponseCode.NOT_FOUND:
-                    print(e)
-                    return
-                case ResponseCode.TOO_MANY_REQUESTS:
-                    wait = 20
-                    if print_debug : print(f"{int(progress*100)}%")
-                    time.sleep(wait)
-                    if print_debug : print(LINE_UP, end=LINE_CLEAR)
-                    continue
-                case _:
-                    print(e)
-                    return
-        
-            
-        data = response.json()
-        
-        if data["success"] != True:
-            raise Exception("Couldn't retrieve data")
-        exercises.extend(data["data"])
-        
-        progress = data["metadata"]["currentPage"] / 150
-        if print_debug : print(f"{int(progress*100)}%")
-
-        current_page = data["metadata"]["nextPage"]
-        time.sleep(random.uniform(1.0, 3.0))
-
-        if print_debug: print(LINE_UP, end=LINE_CLEAR)
+    if data is None:
+        raise Exception("Couldn't retrieve data")
+    exercises.extend(data)
     
     return exercises
 
@@ -86,13 +71,57 @@ def create_exercises_table(connection):
     result = cursor.execute("SELECT name FROM sqlite_master WHERE name='exercises'")
     if result.fetchone() is None:
         raise Exception("Could not create or find table")
-    
-def save_exercises_to_table(connection:sqlite3.Connection, exercises):
-    cursor = connection.cursor()
 
+def get_bodypart_from_muscle(primary_muscle:str, category:str) -> str:
+    if category == "cardio":
+        return "cardio"
+    match primary_muscle:
+        case "quadriceps":
+            return "upper_legs"
+        case "shoulders":
+            return "shoulder"
+        case "abdominals": 
+            return "waist"
+        case "chest":
+            return "chest"
+        case "hamstrings":
+            return "upper_legs"
+        case "triceps":
+            return "upper_arms"
+        case "biceps":
+            return "upper_arms"
+        case "lats":
+            return "back"
+        case "middle back":
+            return "back"
+        case "calves":
+            return "lower_legs"
+        case "lower back":
+            return "back"
+        case "forearms":
+            return "lower_arms"
+        case "glutes":
+            return "upper_legs"
+        case "traps":
+            return "back"
+        case "adductors":
+            return "upper_legs"
+        case "abductors":
+            return "upper_legs"
+        case "neck":
+            return "neck"
+        case _:
+            return "cardio"
+
+def save_exercises_to_table(connection:sqlite3.Connection, exercises):
+    cursor = connection.cursor()           
+              
     for exercise in exercises:
+        primary_muscle = exercise["primaryMuscles"][0]
+        category = exercise["category"]
+        bodypart = get_bodypart_from_muscle(primary_muscle, category)
         cursor.execute("INSERT OR REPLACE INTO exercises VALUES(?, ?, ?, ?, ?, ?)",
-                        (exercise["exerciseId"], exercise["name"], exercise["bodyParts"][0], exercise["targetMuscles"][0], exercise["equipments"][0], str(exercise)))
+                        (exercise["id"], exercise["name"], bodypart, primary_muscle, exercise["equipment"], str(exercise)))
     
 
 def save_to_database(exercises):
@@ -111,7 +140,7 @@ def main():
     print(f"Downloading exercises from {BASE_URL}")
 
     exercises = get_exercises_from_api(True)
-    if exercises is None:
+    if exercises is None or len(exercises) == 0:
         print("No exercises created. Aborting")
         return
     
