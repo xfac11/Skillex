@@ -9,5 +9,9 @@ def view(exercise_id):
     if not exercise_catalog.exists_table():
         click.echo("No exercise table exists. Please use the script in the scripts folder to download all exercises")
         return
-    ui = ExerciseUI(exercise_catalog.get_exercise(exercise_id))
+    exercise = exercise_catalog.get_exercise(exercise_id)
+    if exercise is None:
+        click.echo("There is no exercise with that ID")
+        return
+    ui = ExerciseUI(exercise)
     click.echo(ui.to_string())
