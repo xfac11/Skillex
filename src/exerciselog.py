@@ -82,6 +82,8 @@ class ExerciseLog:
     
     def get_all(self) -> list[ExerciseLogEntry]:
         """Returns all entries in the log that belongs to the user ordered by date DESC"""
+        if not self.exists():
+            return []
         with sqlite3.connect("skillex.db") as connection:
             cursor = connection.cursor()
             
