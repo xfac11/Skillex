@@ -14,6 +14,33 @@ class UserDatabase:
                 return False
             return True
         return False
+    
+    def get_all(self) -> list[User]:
+        if not self.exists():
+            return []
+        with sqlite3.connect(self.database_path) as connection:
+            cursor = connection.cursor()
+            
+            result = cursor.execute("SELECT * FROM users")
+            
+            users = result.fetchall()
+            if len(users) == 0:
+                return []
+            all_users = []
+            for user_db in users:
+                user = User(id=user_db[0], name=user_db[1], global_xp=user_db[2], streak=user_db[12], sleep_streak=user_db[13])
+                user.body_xp.set_bodypart_xp("lower_arms", user_db[3])
+                user.body_xp.set_bodypart_xp("shoulder", user_db[4])
+                user.body_xp.set_bodypart_xp("cardio", user_db[5])
+                user.body_xp.set_bodypart_xp("upper_arms", user_db[6])
+                user.body_xp.set_bodypart_xp("chest", user_db[7])
+                user.body_xp.set_bodypart_xp("lower_legs", user_db[8])
+                user.body_xp.set_bodypart_xp("back", user_db[9])
+                user.body_xp.set_bodypart_xp("upper_legs", user_db[10])
+                user.body_xp.set_bodypart_xp("waist", user_db[11])
+                all_users.append(user)
+            return all_users
+        return []
             
             
     
@@ -74,6 +101,8 @@ class UserDatabase:
         raise NotImplementedError
     
     def get_user(self, name:str) -> User:
+        if not self.exists():
+            return None
         """Returns the user with this name or None if no was found"""
         with sqlite3.connect(self.database_path) as connection:
     
@@ -102,6 +131,8 @@ class UserDatabase:
         return None
     
     def save_user(self, user:User) -> bool:
+        if not self.exists():
+            return False
         """Saves all the variables of a user to the database"""
         with sqlite3.connect(self.database_path) as connection:
             cursor = connection.cursor()

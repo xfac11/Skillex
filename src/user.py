@@ -16,8 +16,8 @@ class User:
         self.streak = streak
         self.sleep_streak = sleep_streak
 
-    def repr():
-        pass
+    def repr(self):
+        return self.name
     
     
     def increase_global_xp(self, xp:int) -> int:
