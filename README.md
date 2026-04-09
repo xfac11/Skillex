@@ -1,4 +1,5 @@
 # Skillex >/H
+![SkillexLogo](ascii-art-text(0).png)
 
 Exercise tracker on the command line. Skillex tracks your workout and gives experience points when completeing exercises. Level up and see your stats increase both in real life and digitaly. 
                 
@@ -46,7 +47,7 @@ Changes the current user to this user with this ``NAME``.
 Can be used with any command or skillex itself
 
 ## Third-party
-- [ExerciseDB API](https://exercisedb.dev/) for getting body parts and exercises. It's an open-source free exercise database.
+- [Free Exercise DB](https://github.com/yuhonas/free-exercise-db) for getting body parts and exercises. Open Public Domain Exercise Dataset in JSON format.
 - [Click](https://click.palletsprojects.com/en/stable/) for creating command line interfaces.
 - [SQLite 3](https://docs.python.org/3/library/sqlite3.html) for creating SQLite databases and executing SQL queries.
 - [Requests](https://pypi.org/project/requests/) for downloading exercises from the ExerciseDB API
