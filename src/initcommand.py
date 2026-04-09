@@ -7,7 +7,7 @@ from bodyparts import BodyParts
 def init():
     """Initiate a user and adds it to the database and config file."""
     click.echo("Welcome to")
-    click.echo(click.style("""
+    click.echo(click.style(r"""
      _______. __  ___  __   __       __       __________   ___    ___       _____    __  
     /       ||  |/  / |  | |  |     |  |     |   ____\  \ /  /    \  \     /  /  |  |  | 
    |   (----`|  '  /  |  | |  |     |  |     |  |__   \  V  /      \  \   /  /|  |__|  | 
