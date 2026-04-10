@@ -43,6 +43,9 @@ Adds the amount of ``HOURS`` to the sleep log and updates the current users slee
 ### `change NAME`
 Changes the current user to this user with this ``NAME``.
 
+### `users`
+Shows all users in the database
+
 ### `--help`
 Can be used with any command or skillex itself
 
