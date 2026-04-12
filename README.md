@@ -4,8 +4,16 @@
 Exercise tracker on the command line. Skillex tracks your workout and gives experience points when completeing exercises. Level up and see your stats increase both in real life and digitaly.
 
 ## Requirements
-- uv to run it and handle the project. How to download and install it are on their website: [uv](https://docs.astral.sh/uv/)
-                
+Skillex requires [uv](https://docs.astral.sh/uv/) to run and handle the project. Go to their website or follow the instructions below to install it.
+
+Run this command to use their official standalone installer.
+### macOS and Linux
+
+`curl -LsSf https://astral.sh/uv/install.sh | sh`
+
+### Windows
+`powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"`
+
 ## How to use
 1. Start by cloning the repository: `git clone https://github.com/xfac11/Skillex.git`.
 
