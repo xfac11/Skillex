@@ -64,4 +64,4 @@ Can be used with any command or skillex itself
 - [Free Exercise DB](https://github.com/yuhonas/free-exercise-db) for getting body parts and exercises. Open Public Domain Exercise Dataset in JSON format.
 - [Click](https://click.palletsprojects.com/en/stable/) for creating command line interfaces.
 - [SQLite 3](https://docs.python.org/3/library/sqlite3.html) for creating SQLite databases and executing SQL queries.
-- [Requests](https://pypi.org/project/requests/) for downloading exercises from the ExerciseDB API
+- [Requests](https://pypi.org/project/requests/) for downloading exercises from Free Exercise DB
