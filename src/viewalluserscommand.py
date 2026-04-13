@@ -3,6 +3,7 @@ from userdatabase import UserDatabase
 
 @click.command()
 def users():
+    """Shows all users in the database"""
     user_db = UserDatabase()
     if not user_db.exists():
         click.echo("No users. Add users with skillex init")
